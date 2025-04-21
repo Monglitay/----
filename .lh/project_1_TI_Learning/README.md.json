@@ -1,0 +1,18 @@
+{
+    "sourceFile": "project_1_TI_Learning/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1745232418733,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1745232418733,
+            "name": "Commit-0",
+            "content": "# 模块1-认识单⽚机(TI MSPM0)\r\n## 任务清单\r\n* 熟悉TI MSPM0开发环境\r\n* 熟悉TI MSPM0的外设以及操作代码\r\n* 使⽤TI MSPM0 实现按钮点灯，即按钮按下点亮3s，随后⾃动熄灭(可能需要学习的内容：中断/定时器/GPIO)->【学习⽬的】检验基本任务学习成果\r\n* 使⽤TI MSPM0 实现串⼝透传，即从UART1接收数据 UART2发送数据(可能需要学习的内容：UART/DMA) ->【学习⽬的】后期远程调试 使⽤UART控制外设等\r\n* 使⽤ FreeRTOS(或者其他RTOS) 实现上述两个功能->【学习⽬的】快速开发"
+        }
+    ]
+}
