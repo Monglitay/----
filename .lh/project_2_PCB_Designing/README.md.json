@@ -1,0 +1,30 @@
+{
+    "sourceFile": "project_2_PCB_Designing/README.md",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 3,
+            "patches": [
+                {
+                    "date": 1745233194709,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1745233200039,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,1 @@\n-#\n\\ No newline at end of file\n+# \n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1745233205875,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,1 +1,1 @@\n-# 模块2-初识电路设计(⽴创EDA)\n\\ No newline at end of file\n+# 模块2-初识电路设计(⽴创EDA)\r\n"
+                },
+                {
+                    "date": 1745233226636,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -0,0 +1,6 @@\n+# 模块2-初识电路设计(⽴创EDA)\r\n+* 使⽤⽴创eda[请使⽤专业版](如果你喜欢其他eda设计软件，亦可) 查看MSPM0原理图\r\n+    * 参考课程：https://www.bilibili.com/video/BV1Q441167nu\r\n+参考课程：https://www.bilibili.com/video/BV17p421S7oL\r\n+【https://space.bilibili.com/323191803】\r\n+◦ 参考课程：https://www.bilibili.com/video/BV1At421h7Ui\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1745233194709,
+            "name": "Commit-0",
+            "content": "#"
+        }
+    ]
+}
