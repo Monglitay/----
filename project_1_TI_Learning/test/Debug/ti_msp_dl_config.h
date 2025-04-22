@@ -79,11 +79,11 @@ extern "C" {
 
 
 /* Port definition for Pin Group LED */
-#define LED_PORT                                                         (GPIOB)
+#define LED_PORT                                                         (GPIOA)
 
-/* Defines for PIN_0: GPIOB.13 with pinCMx 30 on package pin 1 */
-#define LED_PIN_0_PIN                                           (DL_GPIO_PIN_13)
-#define LED_PIN_0_IOMUX                                          (IOMUX_PINCM30)
+/* Defines for PIN_14: GPIOA.14 with pinCMx 36 on package pin 7 */
+#define LED_PIN_14_PIN                                          (DL_GPIO_PIN_14)
+#define LED_PIN_14_IOMUX                                         (IOMUX_PINCM36)
 
 /* clang-format on */
 

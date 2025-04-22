@@ -16,8 +16,10 @@ const SYSCTL = scripting.addModule("/ti/driverlib/SYSCTL");
 /**
  * Write custom configuration values to the imported modules.
  */
-GPIO1.$name                   = "LED";
-GPIO1.associatedPins[0].$name = "PIN_0";
+GPIO1.$name                          = "LED";
+GPIO1.associatedPins[0].assignedPort = "PORTA";
+GPIO1.associatedPins[0].$name        = "PIN_14";
+GPIO1.associatedPins[0].assignedPin  = "14";
 
 const Board = scripting.addModule("/ti/driverlib/Board", {}, false);
 
@@ -28,7 +30,7 @@ SYSCTL.forceDefaultClkConfig = true;
  * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
  * re-solve from scratch.
  */
-GPIO1.associatedPins[0].pin.$suggestSolution = "PB13";
+GPIO1.associatedPins[0].pin.$suggestSolution = "PA14";
 Board.peripheral.$suggestSolution            = "DEBUGSS";
 Board.peripheral.swclkPin.$suggestSolution   = "PA20";
 Board.peripheral.swdioPin.$suggestSolution   = "PA19";

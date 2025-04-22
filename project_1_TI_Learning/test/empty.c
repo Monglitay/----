@@ -35,7 +35,9 @@
 int main(void)
 {
     SYSCFG_DL_init();
-
+    DL_GPIO_togglePins(LED_PORT, LED_PIN_14_PIN);
     while (1) {
+        
+
     }
 }
