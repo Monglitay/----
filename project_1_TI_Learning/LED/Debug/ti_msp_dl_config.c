@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, Texas Instruments Incorporated
+ * Copyright (c) 2023, Texas Instruments Incorporated
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,28 +30,64 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/*
+ *  ============ ti_msp_dl_config.c =============
+ *  Configured MSPM0 DriverLib module definitions
+ *
+ *  DO NOT EDIT - This file is generated for the MSPM0G350X
+ *  by the SysConfig tool.
+ */
+
 #include "ti_msp_dl_config.h"
 
-void delay_ms(unsigned int ms)
+/*
+ *  ======== SYSCFG_DL_init ========
+ *  Perform any initialization needed before using any board APIs
+ */
+SYSCONFIG_WEAK void SYSCFG_DL_init(void)
 {
-    for(int i=0;i<ms;i++)
-    {
-        for(int j=0;j<8000;j++)
-        {
-            __asm(" nop");
-        }
-    }
+    SYSCFG_DL_initPower();
+    SYSCFG_DL_GPIO_init();
+    /* Module-Specific Initializations*/
+    SYSCFG_DL_SYSCTL_init();
+}
+
+SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
+{
+    DL_GPIO_reset(GPIOA);
+    DL_GPIO_reset(GPIOB);
+
+    DL_GPIO_enablePower(GPIOA);
+    DL_GPIO_enablePower(GPIOB);
+    delay_cycles(POWER_STARTUP_DELAY);
+}
+
+SYSCONFIG_WEAK void SYSCFG_DL_GPIO_init(void)
+{
+
+    DL_GPIO_initDigitalOutputFeatures(LED_PIN_14_IOMUX,
+		 DL_GPIO_INVERSION_DISABLE, DL_GPIO_RESISTOR_PULL_DOWN,
+		 DL_GPIO_DRIVE_STRENGTH_LOW, DL_GPIO_HIZ_DISABLE);
+
+    DL_GPIO_clearPins(LED_PORT, LED_PIN_14_PIN);
+    DL_GPIO_enableOutput(LED_PORT, LED_PIN_14_PIN);
+
 }
 
 
-int main(void)
+SYSCONFIG_WEAK void SYSCFG_DL_SYSCTL_init(void)
 {
-    SYSCFG_DL_init();
 
-    while (1) {
-        DL_GPIO_clearPins(LED_PORT, LED_PIN_14_PIN);
-        delay_ms(1000);
-        DL_GPIO_setPins(LED_PORT,LED_PIN_14_PIN);
-        delay_ms(1000);
-    }
+	//Low Power Mode is configured to be SLEEP0
+    DL_SYSCTL_setBORThreshold(DL_SYSCTL_BOR_THRESHOLD_LEVEL_0);
+
+    DL_SYSCTL_setSYSOSCFreq(DL_SYSCTL_SYSOSC_FREQ_BASE);
+    /* Set default configuration */
+    DL_SYSCTL_disableHFXT();
+    DL_SYSCTL_disableSYSPLL();
+    DL_SYSCTL_setULPCLKDivider(DL_SYSCTL_ULPCLK_DIV_1);
+    DL_SYSCTL_setMCLKDivider(DL_SYSCTL_MCLK_DIVIDER_DISABLE);
+
 }
+
+
