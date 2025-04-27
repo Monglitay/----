@@ -38,8 +38,8 @@ int main(void)
 
     while (1) {
         DL_GPIO_togglePins(LED_PORT, LED_PIN_14_PIN);
-        delay_ms(1000);
+        delay_ms(100);
         DL_GPIO_togglePins(LED_PORT, LED_PIN_14_PIN);
-        delay_ms(1000);
+        delay_ms(100);
     }
 }
