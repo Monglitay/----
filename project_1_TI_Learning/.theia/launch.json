@@ -2,12 +2,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "temple",
+            "name": "led",
             "type": "ccs-debug",
             "request": "launch",
             "projectInfo": {
-                "name": "temple",
-                "resourceId": "/temple"
+                "name": "led",
+                "resourceId": "/led"
             },
             "debuggerSettings": {
                 "targetConfigs/MSPM0G3507.ccxml": {
