@@ -36,24 +36,29 @@
 
 void key_cb(void)
 {
-    if( DL_GPIO_readPins(KEY_PORT, KEY_PIN_18_PIN) > 0 )
-            {
-                
-                DL_GPIO_togglePins(LED_PORT, LED_PIN_14_PIN);
-            }
+    DL_GPIO_togglePins(LED_PORT, LED_PIN_14_PIN);
+}
+
+void key_cl_cb(uint8_t clicks)
+{
+    DL_GPIO_togglePins(LED_PORT, LED_PIN_14_PIN);
 }
 int main(void)
 {
+    uint32_t crurrent;
     SYSCFG_DL_init();
-    Key_Initstruct key1;
-    key1.key_iidx = KEY_INT_IIDX;
-    key1.key_port = KEY_PORT;
-    key1.key_irqn = KEY_INT_IRQN;
-    key1.key_cb = key_cb;
-    Key_Init(&key1);
+    Key_InitTypedef Key_InitStruct;
+    Key_InitStruct.key_port = KEY_PORT;
+    Key_InitStruct.key_pin = KEY_PIN_18_PIN;
+    Key_InitStruct.key_pressed_cb = key_cb;
+    Key_InitStruct.key_long_pressed_cb = key_cl_cb;
+    Key_InitStruct.key_released_cb = key_cb;
+    Key_TypeDef Key1;
+    Key_Init(&Key1, &Key_InitStruct);
     while (1)
     {
-
+        Key_Proc(&Key1);
+        
     }
 }
 

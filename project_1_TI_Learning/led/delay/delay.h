@@ -4,10 +4,10 @@
 
 #include "ti_msp_dl_config.h"
 
-static int ticks = 0;
+
 void delay_ms(unsigned int sx);
 void delay_us(unsigned int sx);
-int get_ticks(void);
+uint32_t get_ticks(void);
 
 
 #endif

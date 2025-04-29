@@ -145,7 +145,7 @@ all: $(OBJS) $(GEN_CMDS)
 led.out: $(OBJS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/bin/tiarmclang.exe" @"device.opt"  -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O2 -gdwarf-3 -Wl,-m"led.map" -Wl,-i"C:/TI/mspm0_sdk_2_04_00_06/source" -Wl,-i"D:/NUEDC/project_1_TI_Learning/led" -Wl,-i"D:/NUEDC/project_1_TI_Learning/led/Debug/syscfg" -Wl,-i"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="led_linkInfo.xml" -Wl,--rom_model -o "led.out" $(ORDERED_OBJS)
+	"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/bin/tiarmclang.exe" @"device.opt"  -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O1 -gdwarf-3 -Wl,-m"led.map" -Wl,-i"C:/TI/mspm0_sdk_2_04_00_06/source" -Wl,-i"D:/NUEDC/project_1_TI_Learning/led" -Wl,-i"D:/NUEDC/project_1_TI_Learning/led/Debug/syscfg" -Wl,-i"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="led_linkInfo.xml" -Wl,--rom_model -o "led.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 

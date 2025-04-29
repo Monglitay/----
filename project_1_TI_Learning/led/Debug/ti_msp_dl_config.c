@@ -74,13 +74,18 @@ SYSCONFIG_WEAK void SYSCFG_DL_GPIO_init(void)
 		 DL_GPIO_INVERSION_DISABLE, DL_GPIO_RESISTOR_PULL_DOWN,
 		 DL_GPIO_HYSTERESIS_DISABLE, DL_GPIO_WAKEUP_DISABLE);
 
-    DL_GPIO_clearPins(GPIOA, LED_PIN_14_PIN);
-    DL_GPIO_enableOutput(GPIOA, LED_PIN_14_PIN);
+    DL_GPIO_initDigitalOutput(BSL_PIN_0_IOMUX);
+
+    DL_GPIO_clearPins(GPIOA, LED_PIN_14_PIN |
+		BSL_PIN_0_PIN);
+    DL_GPIO_enableOutput(GPIOA, LED_PIN_14_PIN |
+		BSL_PIN_0_PIN);
     DL_GPIO_setLowerPinsPolarity(GPIOA, DL_GPIO_PIN_12_EDGE_RISE);
     DL_GPIO_clearInterruptStatus(GPIOA, KEY_PIN_18_PIN);
     DL_GPIO_enableInterrupt(GPIOA, KEY_PIN_18_PIN);
 
 }
+
 
 
 SYSCONFIG_WEAK void SYSCFG_DL_SYSCTL_init(void)
@@ -89,12 +94,11 @@ SYSCONFIG_WEAK void SYSCFG_DL_SYSCTL_init(void)
 	//Low Power Mode is configured to be SLEEP0
     DL_SYSCTL_setBORThreshold(DL_SYSCTL_BOR_THRESHOLD_LEVEL_0);
 
-    DL_SYSCTL_setSYSOSCFreq(DL_SYSCTL_SYSOSC_FREQ_BASE);
-    /* Set default configuration */
-    DL_SYSCTL_disableHFXT();
-    DL_SYSCTL_disableSYSPLL();
-    DL_SYSCTL_setULPCLKDivider(DL_SYSCTL_ULPCLK_DIV_1);
-    DL_SYSCTL_setMCLKDivider(DL_SYSCTL_MCLK_DIVIDER_DISABLE);
+    
+	DL_SYSCTL_setSYSOSCFreq(DL_SYSCTL_SYSOSC_FREQ_BASE);
+	/* Set default configuration */
+	DL_SYSCTL_disableHFXT();
+	DL_SYSCTL_disableSYSPLL();
 
 }
 

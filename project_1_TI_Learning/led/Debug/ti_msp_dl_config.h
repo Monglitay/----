@@ -73,6 +73,7 @@ extern "C" {
 #define POWER_STARTUP_DELAY                                                (16)
 
 
+
 #define CPUCLK_FREQ                                                     32000000
 
 
@@ -94,6 +95,12 @@ extern "C" {
 #define KEY_PIN_18_IIDX                                     (DL_GPIO_IIDX_DIO12)
 #define KEY_PIN_18_PIN                                          (DL_GPIO_PIN_12)
 #define KEY_PIN_18_IOMUX                                         (IOMUX_PINCM34)
+/* Port definition for Pin Group BSL */
+#define BSL_PORT                                                         (GPIOA)
+
+/* Defines for PIN_0: GPIOA.18 with pinCMx 40 on package pin 33 */
+#define BSL_PIN_0_PIN                                           (DL_GPIO_PIN_18)
+#define BSL_PIN_0_IOMUX                                          (IOMUX_PINCM40)
 
 
 

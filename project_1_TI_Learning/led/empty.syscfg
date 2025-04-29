@@ -12,6 +12,7 @@
 const GPIO    = scripting.addModule("/ti/driverlib/GPIO", {}, false);
 const GPIO1   = GPIO.addInstance();
 const GPIO2   = GPIO.addInstance();
+const GPIO3   = GPIO.addInstance();
 const SYSCTL  = scripting.addModule("/ti/driverlib/SYSCTL");
 const SYSTICK = scripting.addModule("/ti/driverlib/SYSTICK");
 
@@ -28,7 +29,6 @@ Board.peripheral.$assign          = "DEBUGSS";
 Board.peripheral.swclkPin.$assign = "PA20";
 Board.peripheral.swdioPin.$assign = "PA19";
 
-GPIO2.port                               = "PORTA";
 GPIO2.$name                              = "KEY";
 GPIO2.associatedPins[0].direction        = "INPUT";
 GPIO2.associatedPins[0].polarity         = "RISE";
@@ -36,9 +36,15 @@ GPIO2.associatedPins[0].internalResistor = "PULL_DOWN";
 GPIO2.associatedPins[0].interruptEn      = true;
 GPIO2.associatedPins[0].$name            = "PIN_18";
 GPIO2.associatedPins[0].assignedPin      = "12";
+GPIO2.associatedPins[0].assignedPort     = "PORTA";
+
+GPIO3.$name                         = "BSL";
+GPIO3.port                          = "PORTA";
+GPIO3.associatedPins[0].assignedPin = "18";
+GPIO3.associatedPins[0].$name       = "PIN_0";
 
 SYSCTL.forceDefaultClkConfig = true;
-SYSCTL.peripheral.$assign    = "SYSCTL";
+SYSCTL.clockTreeEn           = true;
 
 SYSTICK.periodEnable      = true;
 SYSTICK.period            = 32000;
@@ -56,3 +62,4 @@ ProjectConfig.migrationCondition = true;
  */
 GPIO1.associatedPins[0].pin.$suggestSolution = "PA13";
 GPIO2.associatedPins[0].pin.$suggestSolution = "PA12";
+GPIO3.associatedPins[0].pin.$suggestSolution = "PA18";
