@@ -15,6 +15,7 @@ ORDERED_OBJS += \
 "./startup_mspm0g350x_ticlang.o" \
 "./delay/delay.o" \
 "./key/key.o" \
+"./usart/usart.o" \
 $(GEN_CMDS__FLAG) \
 -Wl,-ldevice.cmd.genlibs \
 -Wl,-llibc.a \
@@ -29,9 +30,11 @@ RMDIR := RMDIR /S/Q
 -include subdir_vars.mk
 -include delay/subdir_vars.mk
 -include key/subdir_vars.mk
+-include usart/subdir_vars.mk
 -include subdir_rules.mk
 -include delay/subdir_rules.mk
 -include key/subdir_rules.mk
+-include usart/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -149,8 +152,8 @@ led.out: $(OBJS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "delay\delay.o" "key\key.o" 
-	-$(RM) "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "delay\delay.d" "key\key.d" 
+	-$(RM) "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "delay\delay.o" "key\key.o" "usart\usart.o" 
+	-$(RM) "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "delay\delay.d" "key\key.d" "usart\usart.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

@@ -12,3 +12,11 @@ void delay_us(unsigned int sx)
 		delay_cycles(sx);
 }
 
+void SysTick_Handler(void)
+{
+	ticks++;
+}
+int get_ticks(void)
+{
+	return ticks;
+}
