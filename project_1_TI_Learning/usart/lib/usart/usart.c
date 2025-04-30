@@ -8,15 +8,14 @@ volatile unsigned char usart0_ch = 0;
 volatile unsigned char usart0_str[256] = {0};
 // 定义USART0接收的字符串长度
 volatile unsigned int usart0_str_received = 0;
-    unsigned int key_pin;  // 按键所连接的GPIO引脚编号  // 按键按下时的回调函数指针
-    void (*key_pressed_cb)(void);  // 按键松开时的回调函数指针
-    void (*key_released_cb)(void);  // 按键点击（单击、双击等）时的回调函数指针
-    void (*key_clicked_cb)(uint8_t clicks);  // 按键长按时的回调函数指针
+// 定义USART0接收的字符串索引
+volatile unsigned int usart0_str_index = 0;
+
+// 定义USART1接收的字符变量
 volatile unsigned char usart1_ch = 0;
-      // 结束结构体定义
+// 定义USART1接收的字符串数组
 volatile unsigned char usart1_str[256] = {0};
 // 定义USART1接收的字符串长度
-// 定义按键结构体
 volatile unsigned int usart1_str_received = 0;
 // 定义USART1接收的字符串索引
 volatile unsigned int usart1_str_index = 0;

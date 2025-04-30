@@ -11,8 +11,8 @@ int main(void)
     USART_Init(&My_USART0,&USART_InitStruct);
     
     while (1) {
-        char *pstr[256]={0};
+        char pstr[256]={0};
         USART_ReceieveString(&My_USART0,pstr);
-        USART_SendString(&My_USART0, pstr);
+        USART_SendString(&My_USART0,pstr);
     }
 }

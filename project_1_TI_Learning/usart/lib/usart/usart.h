@@ -22,7 +22,7 @@ void USART_Init(USART_Typedef *USARTx,USART_InitTypedef *USART_InitStruct);
 // 从USART接收一个字节
 char USART_ReceieveByte(USART_Typedef *USARTx);
 // 从USART接收字符串
-void USART_ReceieveString(USART_Typedef *USART, char pstr[256]);
+void USART_ReceieveString(USART_Typedef *USART, char *pstr);
 // 通过USART发送字符串
 void USART_SendString(USART_Typedef *USARTx,char *str);
 // 通过USART发送一个字符
