@@ -1,12 +1,13 @@
-#ifndef __KEY_H_
-#define __KEY_H_
+#ifndef __KEY_H_  // 如果未定义宏__KEY_H_，则编译以下代码
+#define __KEY_H_  // 定义宏__KEY_H_，防止重复包含该头文件
 
-#include "ti_msp_dl_config.h"
+#include "ti_msp_dl_config.h"  // 包含TI MSP系列微控制器的驱动配置头文件
 
 
+// 定义按键初始化结构体
 typedef struct 
 {
-    GPIO_Regs *key_port;
+    GPIO_Regs *key_port;  // 指向按键所连接的GPIO端口的指针
     unsigned int key_pin;
     void (*key_pressed_cb)(void);
     void (*key_released_cb)(void);

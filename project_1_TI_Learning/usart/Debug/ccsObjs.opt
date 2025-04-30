@@ -3,6 +3,7 @@
 "./startup_mspm0g350x_ticlang.o"
 "./lib/delay/delay.o"
 "./lib/key/key.o"
+"./lib/usart/usart.o"
 -l"./device_linker.cmd"
 -ldevice.cmd.genlibs
 -llibc.a

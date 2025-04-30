@@ -15,6 +15,7 @@ ORDERED_OBJS += \
 "./startup_mspm0g350x_ticlang.o" \
 "./lib/delay/delay.o" \
 "./lib/key/key.o" \
+"./lib/usart/usart.o" \
 $(GEN_CMDS__FLAG) \
 -Wl,-ldevice.cmd.genlibs \
 -Wl,-llibc.a \
@@ -29,9 +30,11 @@ RMDIR := RMDIR /S/Q
 -include subdir_vars.mk
 -include lib/delay/subdir_vars.mk
 -include lib/key/subdir_vars.mk
+-include lib/usart/subdir_vars.mk
 -include subdir_rules.mk
 -include lib/delay/subdir_rules.mk
 -include lib/key/subdir_rules.mk
+-include lib/usart/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -142,15 +145,15 @@ all: $(OBJS) $(GEN_CMDS)
 usart.out: $(OBJS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/bin/tiarmclang.exe" @"device.opt"  -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O1 -gdwarf-3 -Wl,-m"usart.map" -Wl,-i"C:/TI/mspm0_sdk_2_04_00_06/source" -Wl,-i"D:/NUEDC/project_1_TI_Learning/usart" -Wl,-i"D:/NUEDC/project_1_TI_Learning/usart/Debug/syscfg" -Wl,-i"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="usart_linkInfo.xml" -Wl,--rom_model -o "usart.out" $(ORDERED_OBJS)
+	"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/bin/tiarmclang.exe" @"device.opt"  -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -gdwarf-3 -Wl,-m"usart.map" -Wl,-i"C:/TI/mspm0_sdk_2_04_00_06/source" -Wl,-i"D:/NUEDC/project_1_TI_Learning/usart" -Wl,-i"D:/NUEDC/project_1_TI_Learning/usart/Debug/syscfg" -Wl,-i"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="usart_linkInfo.xml" -Wl,--rom_model -o "usart.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "lib\delay\delay.o" "lib\key\key.o" 
-	-$(RM) "main.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "lib\delay\delay.d" "lib\key\key.d" 
+	-$(RM) "main.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "lib\delay\delay.o" "lib\key\key.o" "lib\usart\usart.o" 
+	-$(RM) "main.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "lib\delay\delay.d" "lib\key\key.d" "lib\usart\usart.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

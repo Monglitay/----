@@ -127,4 +127,5 @@ SUBDIRS := \
 . \
 lib/delay \
 lib/key \
+lib/usart \
 
