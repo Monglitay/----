@@ -41,6 +41,15 @@
                 "name": "usart",
                 "resourceId": "/usart"
             }
+        },
+        {
+            "name": "I2C",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "I2C",
+                "resourceId": "/I2C"
+            }
         }
     ]
 }
