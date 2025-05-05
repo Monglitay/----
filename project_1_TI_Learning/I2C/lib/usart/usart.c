@@ -105,10 +105,11 @@ void USART_ReceieveString(USART_Typedef *USART, char pstr[256])
         // 遍历接收的字符串数组
         for (int i = 0; i <256; i++)
         {
+            if(*pstr == 0 && usart0_str[i]==0)break;
             *pstr++ = usart0_str[i];
             usart0_str[i]=0;
             // 如果接收到的字符串为空且当前字符为空，则结束接收
-            if(*pstr == 0 && usart0_str[i]==0)break;
+            
         }
         // 重置字符串索引和接收标志
         usart0_str_index = 0;
@@ -119,10 +120,11 @@ void USART_ReceieveString(USART_Typedef *USART, char pstr[256])
         // 遍历接收的字符串数组
         for (int i = 0; i <256; i++)
         {
+            if(*pstr == 0 && usart1_str[i]==0)break;
             *pstr++ = usart1_str[i];
             usart1_str[i]=0;
             // 如果接收到的字符串为空且当前字符为空，则结束接收
-            if(*pstr == 0 && usart1_str[i]==0)break;
+            
         }
         // 重置字符串索引和接收标志
         usart1_str_index = 0;
@@ -133,13 +135,15 @@ void USART_ReceieveString(USART_Typedef *USART, char pstr[256])
         // 遍历接收的字符串数组
         for (int i = 0; i <256; i++)
         {
+            if(*pstr == 0 && usart2_str[i]==0)break;
             *pstr++ = usart2_str[i];
             usart2_str[i]=0;
             // 如果接收到的字符串为空且当前字符为空，则结束接收
-            if(*pstr == 0 && usart2_str[i]==0)break;
+            
         }
         
         // 重置接收标志
+        usart2_str_index = 0;
         usart2_str_received = 0;
     }
     else if(USART->usart_inst == UART3)
@@ -147,12 +151,14 @@ void USART_ReceieveString(USART_Typedef *USART, char pstr[256])
         // 遍历接收的字符串数组
         for (int i = 0; i <256; i++)
         {
+            if(*pstr == 0 && usart3_str[i]==0)break;
             *pstr++ = usart3_str[i];
             usart3_str[i]=0;
             // 如果接收到的字符串为空且当前字符为空，则结束接收
-            if(*pstr == 0 && usart3_str[i]==0)break;
+            
         }
         // 重置字符串索引和接收标志
+        usart3_str_index = 0;
         usart3_str_received = 0;
     }
 }
@@ -169,7 +175,7 @@ void UART0_IRQHandler(void)
             // 如果接收到的字符不是换行符且接收标志为0，则继续接收
             if (usart0_str_index < 255 && usart0_str_received == 0)
             {
-                usart0_str[usart1_str_index]=usart0_ch;
+                usart0_str[usart0_str_index]=usart0_ch;
                 usart0_str_index++;
                 // 如果接收到的字符是换行符，则设置接收标志为1，重置索引
                 if(usart0_ch == '\n')
@@ -178,6 +184,7 @@ void UART0_IRQHandler(void)
                     usart0_str_index = 0;
                 }
             }
+
             break;
 
         default:
@@ -207,6 +214,7 @@ void UART1_IRQHandler(void)
                     usart1_str_index = 0;
                 }
             }
+
             break;
 
         default:
@@ -235,6 +243,7 @@ void UART2_IRQHandler(void)
                     usart2_str_index = 0;
                 }
             }
+
             break;
 
         default:
@@ -252,7 +261,7 @@ void UART3_IRQHandler(void)
             // 接收字符
             usart3_ch = DL_UART_Main_receiveData(UART3);
             // 如果接收到的字符不是换行符且接收标志为0，则继续接收
-            if (usart3_str_index < 255 && usart2_str_received == 0)
+            if (usart3_str_index < 255 && usart3_str_received == 0)
             {
                 usart3_str[usart3_str_index] = usart3_ch;
                 usart3_str_index++;
@@ -263,6 +272,7 @@ void UART3_IRQHandler(void)
                     usart3_str_index = 0;
                 }
             }
+
             break;
 
         default:

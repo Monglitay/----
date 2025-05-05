@@ -40,6 +40,8 @@
 
 #include "ti_msp_dl_config.h"
 
+DL_UART_Main_backupConfig gUART_0Backup;
+
 /*
  *  ======== SYSCFG_DL_init ========
  *  Perform any initialization needed before using any board APIs
@@ -52,9 +54,32 @@ SYSCONFIG_WEAK void SYSCFG_DL_init(void)
     SYSCFG_DL_SYSCTL_init();
     SYSCFG_DL_UART_0_init();
     SYSCFG_DL_SYSTICK_init();
+    /* Ensure backup structures have no valid state */
+	gUART_0Backup.backupRdy 	= false;
+
+}
+/*
+ * User should take care to save and restore register configuration in application.
+ * See Retention Configuration section for more details.
+ */
+SYSCONFIG_WEAK bool SYSCFG_DL_saveConfiguration(void)
+{
+    bool retStatus = true;
+
+	retStatus &= DL_UART_Main_saveConfiguration(UART_0_INST, &gUART_0Backup);
+
+    return retStatus;
 }
 
 
+SYSCONFIG_WEAK bool SYSCFG_DL_restoreConfiguration(void)
+{
+    bool retStatus = true;
+
+	retStatus &= DL_UART_Main_restoreConfiguration(UART_0_INST, &gUART_0Backup);
+
+    return retStatus;
+}
 
 SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
 {
@@ -136,6 +161,10 @@ SYSCONFIG_WEAK void SYSCFG_DL_UART_0_init(void)
     DL_UART_Main_enableInterrupt(UART_0_INST,
                                  DL_UART_MAIN_INTERRUPT_RX);
 
+    /* Configure FIFOs */
+    DL_UART_Main_enableFIFOs(UART_0_INST);
+    DL_UART_Main_setRXFIFOThreshold(UART_0_INST, DL_UART_RX_FIFO_LEVEL_ONE_ENTRY);
+    DL_UART_Main_setTXFIFOThreshold(UART_0_INST, DL_UART_TX_FIFO_LEVEL_1_2_EMPTY);
 
     DL_UART_Main_enable(UART_0_INST);
 }
