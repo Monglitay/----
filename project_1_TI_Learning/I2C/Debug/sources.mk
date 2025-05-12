@@ -125,7 +125,9 @@ GEN_OPTS__QUOTED :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 . \
+app \
 lib/delay \
+lib/hi2c \
 lib/key \
 lib/si2c \
 lib/usart \

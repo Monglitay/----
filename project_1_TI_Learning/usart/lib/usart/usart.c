@@ -1,5 +1,7 @@
 #include "usart.h"
-
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
 
 
 // 定义USART0接收的字符变量
@@ -71,6 +73,19 @@ void USART_SendString(USART_Typedef *USARTx,char *str)
     {
         USART_SendChar(USARTx, *str++);
     }
+}
+void USART_Printf(USART_Typedef *USARTx, const char *Format, ...)
+{
+	char format_buffer[128];
+	va_list argptr;
+	
+	va_start(argptr, Format);
+	
+	vsprintf(format_buffer, Format, argptr);
+	
+	va_end(argptr);
+	
+	USART_SendString(USARTx, format_buffer);
 }
 
 // 接收一个字节

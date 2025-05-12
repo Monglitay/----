@@ -77,6 +77,26 @@ extern "C" {
 
 
 
+/* Defines for HC06 */
+#define HC06_INST                                                          UART2
+#define HC06_INST_FREQUENCY                                             32000000
+#define HC06_INST_IRQHandler                                    UART2_IRQHandler
+#define HC06_INST_INT_IRQN                                        UART2_INT_IRQn
+#define GPIO_HC06_RX_PORT                                                  GPIOA
+#define GPIO_HC06_TX_PORT                                                  GPIOA
+#define GPIO_HC06_RX_PIN                                          DL_GPIO_PIN_22
+#define GPIO_HC06_TX_PIN                                          DL_GPIO_PIN_21
+#define GPIO_HC06_IOMUX_RX                                       (IOMUX_PINCM47)
+#define GPIO_HC06_IOMUX_TX                                       (IOMUX_PINCM46)
+#define GPIO_HC06_IOMUX_RX_FUNC                        IOMUX_PINCM47_PF_UART2_RX
+#define GPIO_HC06_IOMUX_TX_FUNC                        IOMUX_PINCM46_PF_UART2_TX
+#define HC06_BAUD_RATE                                                    (9600)
+#define HC06_IBRD_32_MHZ_9600_BAUD                                         (208)
+#define HC06_FBRD_32_MHZ_9600_BAUD                                          (21)
+
+
+
+
 
 /* Port definition for Pin Group BSL */
 #define BSL_PORT                                                         (GPIOA)
@@ -84,15 +104,15 @@ extern "C" {
 /* Defines for PIN_18: GPIOA.18 with pinCMx 40 on package pin 33 */
 #define BSL_PIN_18_PIN                                          (DL_GPIO_PIN_18)
 #define BSL_PIN_18_IOMUX                                         (IOMUX_PINCM40)
-/* Port definition for Pin Group I2C */
-#define I2C_PORT                                                         (GPIOA)
+/* Port definition for Pin Group GPIO */
+#define GPIO_PORT                                                        (GPIOA)
 
-/* Defines for SCL: GPIOA.8 with pinCMx 19 on package pin 16 */
-#define I2C_SCL_PIN                                              (DL_GPIO_PIN_8)
-#define I2C_SCL_IOMUX                                            (IOMUX_PINCM19)
-/* Defines for SDA: GPIOA.9 with pinCMx 20 on package pin 17 */
-#define I2C_SDA_PIN                                              (DL_GPIO_PIN_9)
-#define I2C_SDA_IOMUX                                            (IOMUX_PINCM20)
+/* Defines for SDA: GPIOA.28 with pinCMx 3 on package pin 3 */
+#define GPIO_SDA_PIN                                            (DL_GPIO_PIN_28)
+#define GPIO_SDA_IOMUX                                            (IOMUX_PINCM3)
+/* Defines for SCL: GPIOA.31 with pinCMx 6 on package pin 5 */
+#define GPIO_SCL_PIN                                            (DL_GPIO_PIN_31)
+#define GPIO_SCL_IOMUX                                            (IOMUX_PINCM6)
 
 
 
@@ -102,9 +122,12 @@ void SYSCFG_DL_init(void);
 void SYSCFG_DL_initPower(void);
 void SYSCFG_DL_GPIO_init(void);
 void SYSCFG_DL_SYSCTL_init(void);
+void SYSCFG_DL_HC06_init(void);
 
 void SYSCFG_DL_SYSTICK_init(void);
 
+bool SYSCFG_DL_saveConfiguration(void);
+bool SYSCFG_DL_restoreConfiguration(void);
 
 #ifdef __cplusplus
 }

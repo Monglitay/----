@@ -50,17 +50,22 @@ SYSCONFIG_WEAK void SYSCFG_DL_init(void)
     SYSCFG_DL_GPIO_init();
     /* Module-Specific Initializations*/
     SYSCFG_DL_SYSCTL_init();
+    SYSCFG_DL_HC06_init();
     SYSCFG_DL_SYSTICK_init();
 }
+
+
 
 SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
 {
     DL_GPIO_reset(GPIOA);
     DL_GPIO_reset(GPIOB);
+    DL_UART_Main_reset(HC06_INST);
 
 
     DL_GPIO_enablePower(GPIOA);
     DL_GPIO_enablePower(GPIOB);
+    DL_UART_Main_enablePower(HC06_INST);
 
     delay_cycles(POWER_STARTUP_DELAY);
 }
@@ -68,18 +73,27 @@ SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
 SYSCONFIG_WEAK void SYSCFG_DL_GPIO_init(void)
 {
 
+    DL_GPIO_initPeripheralOutputFunction(
+        GPIO_HC06_IOMUX_TX, GPIO_HC06_IOMUX_TX_FUNC);
+    DL_GPIO_initPeripheralInputFunction(
+        GPIO_HC06_IOMUX_RX, GPIO_HC06_IOMUX_RX_FUNC);
+
     DL_GPIO_initDigitalOutput(BSL_PIN_18_IOMUX);
 
-    DL_GPIO_initDigitalOutput(I2C_SCL_IOMUX);
+    DL_GPIO_initDigitalOutputFeatures(GPIO_SDA_IOMUX,
+		 DL_GPIO_INVERSION_DISABLE, DL_GPIO_RESISTOR_PULL_UP,
+		 DL_GPIO_DRIVE_STRENGTH_LOW, DL_GPIO_HIZ_DISABLE);
 
-    DL_GPIO_initDigitalOutput(I2C_SDA_IOMUX);
+    DL_GPIO_initDigitalOutputFeatures(GPIO_SCL_IOMUX,
+		 DL_GPIO_INVERSION_DISABLE, DL_GPIO_RESISTOR_PULL_UP,
+		 DL_GPIO_DRIVE_STRENGTH_LOW, DL_GPIO_HIZ_DISABLE);
 
-    DL_GPIO_clearPins(GPIOA, BSL_PIN_18_PIN);
-    DL_GPIO_setPins(GPIOA, I2C_SCL_PIN |
-		I2C_SDA_PIN);
+    DL_GPIO_clearPins(GPIOA, BSL_PIN_18_PIN |
+		GPIO_SDA_PIN |
+		GPIO_SCL_PIN);
     DL_GPIO_enableOutput(GPIOA, BSL_PIN_18_PIN |
-		I2C_SCL_PIN |
-		I2C_SDA_PIN);
+		GPIO_SDA_PIN |
+		GPIO_SCL_PIN);
 
 }
 
@@ -99,6 +113,43 @@ SYSCONFIG_WEAK void SYSCFG_DL_SYSCTL_init(void)
 
 }
 
+
+
+static const DL_UART_Main_ClockConfig gHC06ClockConfig = {
+    .clockSel    = DL_UART_MAIN_CLOCK_BUSCLK,
+    .divideRatio = DL_UART_MAIN_CLOCK_DIVIDE_RATIO_1
+};
+
+static const DL_UART_Main_Config gHC06Config = {
+    .mode        = DL_UART_MAIN_MODE_NORMAL,
+    .direction   = DL_UART_MAIN_DIRECTION_TX_RX,
+    .flowControl = DL_UART_MAIN_FLOW_CONTROL_NONE,
+    .parity      = DL_UART_MAIN_PARITY_NONE,
+    .wordLength  = DL_UART_MAIN_WORD_LENGTH_8_BITS,
+    .stopBits    = DL_UART_MAIN_STOP_BITS_ONE
+};
+
+SYSCONFIG_WEAK void SYSCFG_DL_HC06_init(void)
+{
+    DL_UART_Main_setClockConfig(HC06_INST, (DL_UART_Main_ClockConfig *) &gHC06ClockConfig);
+
+    DL_UART_Main_init(HC06_INST, (DL_UART_Main_Config *) &gHC06Config);
+    /*
+     * Configure baud rate by setting oversampling and baud rate divisors.
+     *  Target baud rate: 9600
+     *  Actual baud rate: 9600.24
+     */
+    DL_UART_Main_setOversampling(HC06_INST, DL_UART_OVERSAMPLING_RATE_16X);
+    DL_UART_Main_setBaudRateDivisor(HC06_INST, HC06_IBRD_32_MHZ_9600_BAUD, HC06_FBRD_32_MHZ_9600_BAUD);
+
+
+    /* Configure Interrupts */
+    DL_UART_Main_enableInterrupt(HC06_INST,
+                                 DL_UART_MAIN_INTERRUPT_RX);
+
+
+    DL_UART_Main_enable(HC06_INST);
+}
 
 SYSCONFIG_WEAK void SYSCFG_DL_SYSTICK_init(void)
 {

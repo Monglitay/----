@@ -1,6 +1,7 @@
 #ifndef __SI2C_H_
 #define __SI2C_H_
 
+
 #include "ti_msp_dl_config.h"
 typedef struct  
 {
@@ -23,7 +24,9 @@ void SI2C_Init(SI2C_Typedef *SI2C,SI2C_InitTypedef *SI2C_InitStruct);
 int SI2C_SendBytes(SI2C_Typedef *SI2C, uint8_t DevAddr, uint8_t RegAddr,uint8_t length,int8_t *data);
 int SI2C_RecieveBytes(SI2C_Typedef *SI2C, uint8_t DevAddr, uint8_t RegAddr,uint8_t length,int8_t *buffer);
 
-static void SDA_In(SI2C_Typedef *SI2C);
+
+void SDA_Out(SI2C_Typedef *SI2C);
+void SDA_In(SI2C_Typedef *SI2C);
 static int SDA_Get(SI2C_Typedef *SI2C);
 static int SCL_Get(SI2C_Typedef *SI2C);
 static void SDA_Set_Byte(SI2C_Typedef *SI2C,int byte);

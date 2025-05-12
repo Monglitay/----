@@ -13,7 +13,9 @@ ORDERED_OBJS += \
 "./main.o" \
 "./ti_msp_dl_config.o" \
 "./startup_mspm0g350x_ticlang.o" \
+"./app/mpu6050.o" \
 "./lib/delay/delay.o" \
+"./lib/hi2c/hi2c.o" \
 "./lib/key/key.o" \
 "./lib/si2c/si2c.o" \
 "./lib/usart/usart.o" \
@@ -29,12 +31,16 @@ RMDIR := RMDIR /S/Q
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
+-include app/subdir_vars.mk
 -include lib/delay/subdir_vars.mk
+-include lib/hi2c/subdir_vars.mk
 -include lib/key/subdir_vars.mk
 -include lib/si2c/subdir_vars.mk
 -include lib/usart/subdir_vars.mk
 -include subdir_rules.mk
+-include app/subdir_rules.mk
 -include lib/delay/subdir_rules.mk
+-include lib/hi2c/subdir_rules.mk
 -include lib/key/subdir_rules.mk
 -include lib/si2c/subdir_rules.mk
 -include lib/usart/subdir_rules.mk
@@ -148,15 +154,15 @@ all: $(OBJS) $(GEN_CMDS)
 I2C.out: $(OBJS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: Arm Linker'
-	"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/bin/tiarmclang.exe" @"device.opt"  -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O1 -gdwarf-3 -Wl,-m"I2C.map" -Wl,-i"C:/TI/mspm0_sdk_2_04_00_06/source" -Wl,-i"D:/NUEDC/project_1_TI_Learning/I2C" -Wl,-i"D:/NUEDC/project_1_TI_Learning/I2C/Debug/syscfg" -Wl,-i"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="I2C_linkInfo.xml" -Wl,--rom_model -o "I2C.out" $(ORDERED_OBJS)
+	"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/bin/tiarmclang.exe" @"device.opt"  -march=thumbv6m -mcpu=cortex-m0plus -mfloat-abi=soft -mlittle-endian -mthumb -O0 -gdwarf-3 -Wl,-m"I2C.map" -Wl,-i"C:/TI/mspm0_sdk_2_04_00_06/source" -Wl,-i"D:/NUEDC/project_1_TI_Learning/I2C" -Wl,-i"D:/NUEDC/project_1_TI_Learning/I2C/Debug/syscfg" -Wl,-i"D:/CCS/ccs/tools/compiler/ti-cgt-armllvm_4.0.2.LTS/lib" -Wl,--diag_wrap=off -Wl,--display_error_number -Wl,--warn_sections -Wl,--xml_link_info="I2C_linkInfo.xml" -Wl,--rom_model -o "I2C.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "lib\delay\delay.o" "lib\key\key.o" "lib\si2c\si2c.o" "lib\usart\usart.o" 
-	-$(RM) "main.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "lib\delay\delay.d" "lib\key\key.d" "lib\si2c\si2c.d" "lib\usart\usart.d" 
+	-$(RM) "main.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "app\mpu6050.o" "lib\delay\delay.o" "lib\hi2c\hi2c.o" "lib\key\key.o" "lib\si2c\si2c.o" "lib\usart\usart.o" 
+	-$(RM) "main.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "app\mpu6050.d" "lib\delay\delay.d" "lib\hi2c\hi2c.d" "lib\key\key.d" "lib\si2c\si2c.d" "lib\usart\usart.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

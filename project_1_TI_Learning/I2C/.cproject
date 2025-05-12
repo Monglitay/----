@@ -36,13 +36,16 @@
                                 <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.MFLOAT_ABI.853185691" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.MFLOAT_ABI" value="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.MFLOAT_ABI.soft" valueType="enumerated"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.ENDIAN_NESS__BIG_LITTLE.1080757350" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.ENDIAN_NESS__BIG_LITTLE" value="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.ENDIAN_NESS__BIG_LITTLE.MLITTLE_ENDIAN" valueType="enumerated"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.SELECT_PROCESSOR_MODE__ARM_THUMB.843158372" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.SELECT_PROCESSOR_MODE__ARM_THUMB" value="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.SELECT_PROCESSOR_MODE__ARM_THUMB.MTHUMB" valueType="enumerated"/>
-                                <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.OPT_LEVEL.1214514543" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.OPT_LEVEL" value="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.OPT_LEVEL.1" valueType="enumerated"/>
+                                <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.OPT_LEVEL.1214514543" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.OPT_LEVEL" value="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.OPT_LEVEL.0" valueType="enumerated"/>
                                 <option id="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.INCLUDE_PATH.1649063883" superClass="com.ti.ccstudio.buildDefinitions.TMS470_TICLANG_4.0.compilerID.INCLUDE_PATH" valueType="includePath">
                                     <listOptionValue value="${SYSCONFIG_TOOL_INCLUDE_PATH}"/>
                                     <listOptionValue value="${COM_TI_MSPM0_SDK_INCLUDE_PATH}"/>
                                     <listOptionValue value="${PROJECT_ROOT}/lib/key"/>
                                     <listOptionValue value="${PROJECT_ROOT}/lib/si2c"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/lib/task"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/lib/hi2c"/>
                                     <listOptionValue value="${PROJECT_ROOT}/lib/usart"/>
+                                    <listOptionValue value="${PROJECT_ROOT}/app"/>
                                     <listOptionValue value="${PROJECT_ROOT}/lib/delay"/>
                                     <listOptionValue value="${PROJECT_ROOT}"/>
                                     <listOptionValue value="${PROJECT_ROOT}/${ConfigName}"/>

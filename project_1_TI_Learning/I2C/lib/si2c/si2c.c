@@ -7,10 +7,10 @@
 void SI2C_Init(SI2C_Typedef *SI2C,SI2C_InitTypedef *SI2C_InitStruct)
 {
     SI2C->i2c_port = SI2C_InitStruct->i2c_port;
-    SI2C->i2c_scl_iomux = SI2C->i2c_scl_iomux;
-    SI2C->i2c_sda_iomux = SI2C->i2c_sda_iomux;
-    SI2C->i2c_scl_pin = SI2C->i2c_scl_pin;
-    SI2C->i2c_sda_pin = SI2C->i2c_sda_pin;
+    SI2C->i2c_scl_iomux = SI2C_InitStruct->i2c_scl_iomux;
+    SI2C->i2c_sda_iomux = SI2C_InitStruct->i2c_sda_iomux;
+    SI2C->i2c_scl_pin = SI2C_InitStruct->i2c_scl_pin;
+    SI2C->i2c_sda_pin = SI2C_InitStruct->i2c_sda_pin;
 }
 
 int SI2C_SendBytes(SI2C_Typedef *SI2C, uint8_t DevAddr, uint8_t RegAddr,uint8_t length,int8_t *data)
@@ -54,13 +54,13 @@ int SI2C_RecieveBytes(SI2C_Typedef *SI2C, uint8_t DevAddr, uint8_t RegAddr,uint8
     SI2C_Stop(SI2C);
     return 0;
 }
-static void SDA_Out(SI2C_Typedef *SI2C)
+void SDA_Out(SI2C_Typedef *SI2C)
 {
     DL_GPIO_initDigitalOutput(SI2C->i2c_sda_iomux);
     DL_GPIO_setPins(SI2C->i2c_port, SI2C->i2c_sda_pin);
     DL_GPIO_enableOutput(SI2C->i2c_port, SI2C->i2c_sda_pin);
 }
-static void SDA_In(SI2C_Typedef *SI2C)
+void SDA_In(SI2C_Typedef *SI2C)
 {
     DL_GPIO_initDigitalInput(SI2C->i2c_sda_iomux); 
 }
@@ -74,25 +74,24 @@ static int SCL_Get(SI2C_Typedef *SI2C)
 }
 static void SDA_Set_Byte(SI2C_Typedef *SI2C,int byte)
 {
-    byte ? (DL_GPIO_setPins(SI2C->i2c_port, SI2C->i2c_scl_pin)) : (DL_GPIO_clearPins(SI2C->i2c_port, SI2C->i2c_scl_pin));
+    byte ? (DL_GPIO_setPins(SI2C->i2c_port, SI2C->i2c_sda_pin)) : (DL_GPIO_clearPins(SI2C->i2c_port, SI2C->i2c_sda_pin));
 }
 
 static void SCL_Set_Byte(SI2C_Typedef *SI2C,int byte)
 {
-    byte ? (DL_GPIO_setPins(SI2C->i2c_port, SI2C->i2c_sda_pin)) : (DL_GPIO_clearPins(SI2C->i2c_port, SI2C->i2c_sda_pin));
+    byte ? (DL_GPIO_setPins(SI2C->i2c_port, SI2C->i2c_scl_pin)) : (DL_GPIO_clearPins(SI2C->i2c_port, SI2C->i2c_scl_pin));
 }
 
 static void SI2C_Start(SI2C_Typedef *SI2C)
 {
     SDA_Out(SI2C);
-    SCL_Set_Byte(SI2C, 0);
+    SCL_Set_Byte(SI2C, 1);
+    SDA_Set_Byte(SI2C,0);
     SDA_Set_Byte(SI2C,1);
-    SCL_Set_Byte(SI2C,1);
     delay_us(5);
     SDA_Set_Byte(SI2C,0);
     delay_us(5);    
     SCL_Set_Byte(SI2C,0);
-    delay_us(5);
 }
 
 static void SI2C_Stop(SI2C_Typedef *SI2C)
@@ -110,11 +109,10 @@ static int SI2C_Wait_Ack(SI2C_Typedef *SI2C)
 {
     char ack = 0;
     unsigned char ack_flag = 10;
+    SCL_Set_Byte(SI2C,0);
+    SDA_Set_Byte(SI2C, 1);
     SDA_In(SI2C);
-    SDA_Set_Byte(SI2C,1);
-    delay_us(5);
-    SCL_Set_Byte(SI2C,1);
-    delay_us(5);
+    SCL_Set_Byte(SI2C, 1);
     while((SDA_Get(SI2C)==1)&&(ack_flag)) 
     {
         ack_flag--;
@@ -155,13 +153,12 @@ static void SI2C_Send_Byte(SI2C_Typedef *SI2C,uint8_t byte)
     for(i=0;i<8;i++)
     {
         SDA_Set_Byte(SI2C,(byte & 0x80)>>7);
-        delay_us(2);
-        byte <<= 1;
-        delay_us(6);
+        delay_us(1);
         SCL_Set_Byte(SI2C,1);
-        delay_us(4);
+        delay_us(5);
         SCL_Set_Byte(SI2C,0);
-        delay_us(4);
+        delay_us(5);
+        byte <<= 1;
     }
 }
 
@@ -182,6 +179,7 @@ static uint8_t SI2C_Recieve_Byte(SI2C_Typedef *SI2C)
         }
         delay_us(5);
     }
+    SCL_Set_Byte(SI2C,0);
     return byte;
 }
 

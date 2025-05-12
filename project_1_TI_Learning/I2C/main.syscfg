@@ -9,34 +9,37 @@
 /**
  * Import the modules used in this configuration.
  */
+const Board   = scripting.addModule("/ti/driverlib/Board");
 const GPIO    = scripting.addModule("/ti/driverlib/GPIO", {}, false);
 const GPIO1   = GPIO.addInstance();
 const GPIO2   = GPIO.addInstance();
 const SYSCTL  = scripting.addModule("/ti/driverlib/SYSCTL");
 const SYSTICK = scripting.addModule("/ti/driverlib/SYSTICK");
+const UART    = scripting.addModule("/ti/driverlib/UART", {}, false);
+const UART1   = UART.addInstance();
 
 /**
  * Write custom configuration values to the imported modules.
  */
+Board.peripheral.$assign          = "DEBUGSS";
+Board.peripheral.swclkPin.$assign = "PA20";
+Board.peripheral.swdioPin.$assign = "PA19";
+
 GPIO1.$name                          = "BSL";
 GPIO1.associatedPins[0].$name        = "PIN_18";
 GPIO1.associatedPins[0].assignedPin  = "18";
 GPIO1.associatedPins[0].assignedPort = "PORTA";
 
-const Board                       = scripting.addModule("/ti/driverlib/Board", {}, false);
-Board.peripheral.$assign          = "DEBUGSS";
-Board.peripheral.swclkPin.$assign = "PA20";
-Board.peripheral.swdioPin.$assign = "PA19";
-
-GPIO2.port                           = "PORTA";
-GPIO2.$name                          = "I2C";
+GPIO2.$name                              = "GPIO";
 GPIO2.associatedPins.create(2);
-GPIO2.associatedPins[0].$name        = "SCL";
-GPIO2.associatedPins[0].initialValue = "SET";
-GPIO2.associatedPins[0].assignedPin  = "8";
-GPIO2.associatedPins[1].$name        = "SDA";
-GPIO2.associatedPins[1].initialValue = "SET";
-GPIO2.associatedPins[1].assignedPin  = "9";
+GPIO2.associatedPins[0].$name            = "SDA";
+GPIO2.associatedPins[0].internalResistor = "PULL_UP";
+GPIO2.associatedPins[0].assignedPort     = "PORTA";
+GPIO2.associatedPins[0].assignedPin      = "28";
+GPIO2.associatedPins[1].$name            = "SCL";
+GPIO2.associatedPins[1].assignedPort     = "PORTA";
+GPIO2.associatedPins[1].assignedPin      = "31";
+GPIO2.associatedPins[1].internalResistor = "PULL_UP";
 
 SYSCTL.forceDefaultClkConfig = true;
 SYSCTL.peripheral.$assign    = "SYSCTL";
@@ -47,6 +50,19 @@ SYSTICK.interruptEnable   = true;
 SYSTICK.systickEnable     = true;
 SYSTICK.interruptPriority = "0";
 
+UART1.enabledInterrupts                = ["RX"];
+UART1.$name                            = "HC06";
+UART1.peripheral.$assign               = "UART2";
+UART1.txPinConfig.direction            = scripting.forceWrite("OUTPUT");
+UART1.txPinConfig.hideOutputInversion  = scripting.forceWrite(false);
+UART1.txPinConfig.onlyInternalResistor = scripting.forceWrite(false);
+UART1.txPinConfig.passedPeripheralType = scripting.forceWrite("Digital");
+UART1.txPinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric0";
+UART1.rxPinConfig.hideOutputInversion  = scripting.forceWrite(false);
+UART1.rxPinConfig.onlyInternalResistor = scripting.forceWrite(false);
+UART1.rxPinConfig.passedPeripheralType = scripting.forceWrite("Digital");
+UART1.rxPinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric1";
+
 const ProjectConfig              = scripting.addModule("/ti/project_config/ProjectConfig", {}, false);
 ProjectConfig.migrationCondition = true;
 
@@ -56,5 +72,7 @@ ProjectConfig.migrationCondition = true;
  * re-solve from scratch.
  */
 GPIO1.associatedPins[0].pin.$suggestSolution = "PA18";
-GPIO2.associatedPins[0].pin.$suggestSolution = "PA8";
-GPIO2.associatedPins[1].pin.$suggestSolution = "PA9";
+GPIO2.associatedPins[0].pin.$suggestSolution = "PA28";
+GPIO2.associatedPins[1].pin.$suggestSolution = "PA31";
+UART1.peripheral.rxPin.$suggestSolution      = "PA22";
+UART1.peripheral.txPin.$suggestSolution      = "PA21";

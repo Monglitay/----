@@ -50,6 +50,15 @@
                 "name": "I2C",
                 "resourceId": "/I2C"
             }
+        },
+        {
+            "name": "mpu6050",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "mpu6050",
+                "resourceId": "/mpu6050"
+            }
         }
     ]
 }

@@ -27,5 +27,6 @@ void USART_ReceieveString(USART_Typedef *USART, char *pstr);
 void USART_SendString(USART_Typedef *USARTx,char *str);
 // 通过USART发送一个字符
 void USART_SendChar(USART_Typedef *USARTx,char ch);
+void USART_Printf(USART_Typedef *USARTx, const char *Format, ...);
 
 #endif /* __USART_H_ */  // 结束#ifndef __USART_H_的条件编译
