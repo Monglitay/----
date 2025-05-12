@@ -104,15 +104,15 @@ extern "C" {
 /* Defines for PIN_18: GPIOA.18 with pinCMx 40 on package pin 33 */
 #define BSL_PIN_18_PIN                                          (DL_GPIO_PIN_18)
 #define BSL_PIN_18_IOMUX                                         (IOMUX_PINCM40)
-/* Port definition for Pin Group GPIO */
-#define GPIO_PORT                                                        (GPIOA)
+/* Port definition for Pin Group I2C */
+#define I2C_PORT                                                         (GPIOA)
 
 /* Defines for SDA: GPIOA.28 with pinCMx 3 on package pin 3 */
-#define GPIO_SDA_PIN                                            (DL_GPIO_PIN_28)
-#define GPIO_SDA_IOMUX                                            (IOMUX_PINCM3)
+#define I2C_SDA_PIN                                             (DL_GPIO_PIN_28)
+#define I2C_SDA_IOMUX                                             (IOMUX_PINCM3)
 /* Defines for SCL: GPIOA.31 with pinCMx 6 on package pin 5 */
-#define GPIO_SCL_PIN                                            (DL_GPIO_PIN_31)
-#define GPIO_SCL_IOMUX                                            (IOMUX_PINCM6)
+#define I2C_SCL_PIN                                             (DL_GPIO_PIN_31)
+#define I2C_SCL_IOMUX                                             (IOMUX_PINCM6)
 
 
 
