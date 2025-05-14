@@ -66,6 +66,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
     DL_TimerG_reset(PWM_L_INST);
     DL_UART_Main_reset(HC_06_INST);
 
+    DL_MathACL_reset(MATHACL);
 
     DL_GPIO_enablePower(GPIOA);
     DL_GPIO_enablePower(GPIOB);
@@ -73,6 +74,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
     DL_TimerG_enablePower(PWM_L_INST);
     DL_UART_Main_enablePower(HC_06_INST);
 
+    DL_MathACL_enablePower(MATHACL);
     delay_cycles(POWER_STARTUP_DELAY);
 }
 

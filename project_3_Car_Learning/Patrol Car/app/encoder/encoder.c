@@ -9,6 +9,20 @@ static volatile int8_t direction_r = 1; // 右电机旋转的方向，1 - 正转，-1 - 反转
 static volatile uint64_t t0_l = 0, t1_l = 0; // 左电机编码器发生变化的时间，单位us
 static volatile uint64_t t0_r = 0, t1_r = 0; // 右电机编码器发生变化的时间，单位us
 
+// 右编码器滤波相关变量
+#define MOVING_AVG_WINDOW 4    // 滑动平均窗口大小
+#define LOWPASS_ALPHA     0.2f // 低通滤波系数
+
+static float r_speed_buffer[MOVING_AVG_WINDOW] = {0};
+static uint8_t r_buffer_index = 0;
+static float r_filtered_speed = 0.0f;
+
+#define MOVING_AVG_WINDOW 4    // 滑动平均窗口大小
+#define LOWPASS_ALPHA     0.2f // 低通滤波系数
+
+static float l_speed_buffer[MOVING_AVG_WINDOW] = {0};
+static uint8_t l_buffer_index = 0;
+static float l_filtered_speed = 0.0f;
 void Encoder_Init(void)
 {
     NVIC_EnableIRQ(ENCODER_GPIOA_INT_IIDX);
@@ -17,7 +31,8 @@ void Encoder_Init(void)
 void GROUP1_IRQHandler(void)//Group1的中断服务函数
 {
     //读取Group1的中断寄存器并清除中断标志位
-    if( DL_Interrupt_getPendingGroup(DL_INTERRUPT_GROUP_1) == ENCODER_GPIOA_INT_IIDX | ENCODER_GPIOB_INT_IIDX )
+    uint32_t pending=DL_Interrupt_getPendingGroup(DL_INTERRUPT_GROUP_1);
+    if( pending ==ENCODER_GPIOA_INT_IIDX || pending ==ENCODER_GPIOB_INT_IIDX )
     {
 
         if(DL_GPIO_getEnabledInterruptStatus(ENCODER_R_B_PORT, ENCODER_R_B_PIN))
@@ -96,14 +111,16 @@ void GROUP1_IRQHandler(void)//Group1的中断服务函数
 // @单位：度
 float Encoder_Get_L(void)
 {
-    return encoder_l / 22.0f / (30613.0f / 1500.0f) * 360.0f;
+    float res = encoder_l *0.8017;
+    return res;
 }
 //
 // @简介：获取右轮胎的角度
 // @单位：度
 float Encoder_Get_R(void)
 {
-    return encoder_r / 22.0f / (30613.0f / 1500.0f) * 360.0f;
+    float res = encoder_r *0.8017;
+    return res;
 }
 
 
@@ -120,7 +137,6 @@ float Encoder_Get_R_Speed(void)
 	
 	__enable_irq(); // 开启单片机的总中断
 	
-	if(direction_cpy == +2 || direction_cpy == -2) return 0.0f;
 	
 	uint64_t now = get_ticks_us();
 	
@@ -136,33 +152,62 @@ float Encoder_Get_R_Speed(void)
 	}
 
 
-	return direction_cpy / T / 22.0f / (30613.0f / 1500.0f) * 360.0f;
+	
+    float raw_speed = direction_cpy / T *0.8017;
+
+    // 滑动平均滤波
+    r_speed_buffer[r_buffer_index] = raw_speed;
+    r_buffer_index = (r_buffer_index + 1) % MOVING_AVG_WINDOW;
+
+    float moving_avg = 0;
+    for(int i=0; i<MOVING_AVG_WINDOW; i++) {
+        moving_avg += r_speed_buffer[i];
+    }
+    moving_avg /= MOVING_AVG_WINDOW;
+
+    // 低通滤波
+    r_filtered_speed = LOWPASS_ALPHA * moving_avg + (1 - LOWPASS_ALPHA) * r_filtered_speed;
+    return r_filtered_speed;
 }
 
 float Encoder_Get_L_Speed(void)
 {
-    	__disable_irq(); // 关闭单片机的总中断
-	
-	int8_t direction_cpy = direction_l;
-	uint64_t t0_cpy = t0_l;
-	uint64_t t1_cpy = t1_l;
-	
-	__enable_irq(); // 开启单片机的总中断
-	
-	if(direction_cpy == +2 || direction_cpy == -2) return 0.0f;
-	
-	uint64_t now = get_ticks_us();
-	
-	float T;
-	
-	if(t0_cpy - t1_cpy > now - t0_cpy)
-	{
-		T = (t0_cpy - t1_cpy) * 1.0e-6f;
-	}
-	else
-	{
-		T = (now - t0_cpy) * 1.0e-6f;
-	}
-	
-	return direction_cpy / T / 22.0f / (30613.0f / 1500.0f) * 360.0f;
+    __disable_irq(); // 关闭总中断
+    
+    int8_t direction_cpy = direction_l;
+    uint64_t t0_cpy = t0_l;
+    uint64_t t1_cpy = t1_l;
+    
+    __enable_irq(); // 开启总中断
+    
+
+    
+    uint64_t now = get_ticks_us();
+    float T;
+    
+    if(t0_cpy - t1_cpy > now - t0_cpy)
+    {
+        T = (t0_cpy - t1_cpy) * 1.0e-6f;
+    }
+    else
+    {
+        T = (now - t0_cpy) * 1.0e-6f;
+    }
+    
+    float raw_speed = direction_cpy / T /0.8017;
+
+    // 滑动平均滤波
+    l_speed_buffer[l_buffer_index] = raw_speed;
+    l_buffer_index = (l_buffer_index + 1) % MOVING_AVG_WINDOW;
+
+    float moving_avg = 0;
+    for(int i=0; i<MOVING_AVG_WINDOW; i++) {
+        moving_avg += l_speed_buffer[i];
+    }
+    moving_avg /= MOVING_AVG_WINDOW;
+
+    // 一阶低通滤波
+    l_filtered_speed = LOWPASS_ALPHA * moving_avg + (1 - LOWPASS_ALPHA) * l_filtered_speed;
+
+    return l_filtered_speed;
 }

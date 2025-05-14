@@ -9,19 +9,21 @@
 /**
  * Import the modules used in this configuration.
  */
-const Board   = scripting.addModule("/ti/driverlib/Board");
-const GPIO    = scripting.addModule("/ti/driverlib/GPIO", {}, false);
-const GPIO1   = GPIO.addInstance();
-const GPIO2   = GPIO.addInstance();
-const GPIO3   = GPIO.addInstance();
-const GPIO4   = GPIO.addInstance();
-const PWM     = scripting.addModule("/ti/driverlib/PWM", {}, false);
-const PWM1    = PWM.addInstance();
-const PWM2    = PWM.addInstance();
-const SYSCTL  = scripting.addModule("/ti/driverlib/SYSCTL");
-const SYSTICK = scripting.addModule("/ti/driverlib/SYSTICK");
-const UART    = scripting.addModule("/ti/driverlib/UART", {}, false);
-const UART1   = UART.addInstance();
+const Board         = scripting.addModule("/ti/driverlib/Board");
+const GPIO          = scripting.addModule("/ti/driverlib/GPIO", {}, false);
+const GPIO1         = GPIO.addInstance();
+const GPIO2         = GPIO.addInstance();
+const GPIO3         = GPIO.addInstance();
+const GPIO4         = GPIO.addInstance();
+const MATHACL       = scripting.addModule("/ti/driverlib/MATHACL");
+const PWM           = scripting.addModule("/ti/driverlib/PWM", {}, false);
+const PWM1          = PWM.addInstance();
+const PWM2          = PWM.addInstance();
+const SYSCTL        = scripting.addModule("/ti/driverlib/SYSCTL");
+const SYSTICK       = scripting.addModule("/ti/driverlib/SYSTICK");
+const UART          = scripting.addModule("/ti/driverlib/UART", {}, false);
+const UART1         = UART.addInstance();
+const ProjectConfig = scripting.addModule("/ti/project_config/ProjectConfig");
 
 /**
  * Write custom configuration values to the imported modules.
@@ -160,8 +162,9 @@ UART1.rxPinConfig.onlyInternalResistor = scripting.forceWrite(false);
 UART1.rxPinConfig.passedPeripheralType = scripting.forceWrite("Digital");
 UART1.rxPinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric3";
 
-const ProjectConfig              = scripting.addModule("/ti/project_config/ProjectConfig", {}, false);
 ProjectConfig.migrationCondition = true;
+ProjectConfig.genLibIQ           = true;
+ProjectConfig.genLibIQVersion    = "MATHACL";
 
 /**
  * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
