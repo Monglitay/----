@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Patrol Car",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "Patrol Car",
+                "resourceId": "/Patrol Car"
+            }
+        }
+    ]
+}
