@@ -1,7 +1,6 @@
-#ifndef __USART_H_  // 如果未定义宏__USART_H_，则编译以下代码，防止头文件被多次包含
-#define __USART_H_  // 定义宏__USART_H_，表示该头文件已被包含
-
-#include "ti_msp_dl_config.h"  // 包含TI MSP430的驱动配置头文件
+#ifndef __USART_H_  
+#define __USART_H_  
+#include "ti_msp_dl_config.h"
 
 // 定义USART初始化结构体
 typedef struct
@@ -27,8 +26,9 @@ void USART_ReceieveString(USART_Typedef *USART, char *pstr);
 void USART_SendString(USART_Typedef *USARTx,char *str);
 // 通过USART发送一个字符
 void USART_SendChar(USART_Typedef *USARTx,char ch);
-
+// 声明一个函数，用于通过USART发送数据
 void USART_Printf(USART_Typedef *USARTx,const char *Format, ...);
+// 声明一个函数，用于处理UART中断
 void UART_IRQHandler(UART_Regs *UART, volatile unsigned char usart_ch, volatile unsigned char usart_str[256],
                      volatile unsigned int *usart_str_index, volatile unsigned int *usart_str_received);
 #endif

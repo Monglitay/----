@@ -64,25 +64,44 @@
 #define MPU_GYRO_ZOUTL_REG          0X48        //陀螺仪值,Z轴低8位寄存器
 
 
+// 向MPU6050写入寄存器
 char MPU6050_WriteReg(uint8_t addr,uint8_t regaddr,uint8_t num,uint8_t *regdata);
+// 从MPU6050读取数据
 char MPU6050_ReadData(uint8_t addr, uint8_t regaddr,uint8_t num,uint8_t* Read);
 
+// 初始化MPU6050
 char MPU6050_Init(void);
+// 读取MPU6050陀螺仪数据
 void MPU6050ReadGyro(short *gyroData);
+// 读取MPU6050加速度计数据
 void MPU6050ReadAcc(short *accData);
+// 获取MPU6050温度
 float MPU6050_GetTemp(void);
+// 读取MPU6050ID
 uint8_t MPU6050ReadID(void);
+// 更新MPU6050数据
 void MPU6050_Update(void);
+// 处理MPU6050数据
 void MPU6050_Proc(void);
+// 获取加速度计X轴数据
 float Get_ax(void);
+// 获取加速度计Y轴数据
 float Get_ay(void);
+// 获取加速度计Z轴数据
 float Get_az(void);
+// 获取陀螺仪X轴数据
 float Get_gx(void);
+// 获取陀螺仪Y轴数据
 float Get_gy(void);
+// 获取陀螺仪Z轴数据
 float Get_gz(void);
+// 获取温度数据
 float Get_temperature(void);
+// 获取偏航角
 float Get_yaw(void);
+// 获取俯仰角
 float Get_pitch(void);
+// 获取滚转角
 float Get_roll(void);
 
 #endif
