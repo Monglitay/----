@@ -75,7 +75,7 @@ app/encoder/encoder.o: ../app/encoder/encoder.c ../app/encoder/encoder.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/dl_wwdt.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_interrupt.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_systick.h \
- D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tb6612/tb6612.h
 ../app/encoder/encoder.h:
 ti_msp_dl_config.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/msp/msp.h:
@@ -151,4 +151,4 @@ C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/dl_vref.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/dl_wwdt.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_interrupt.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_systick.h:
-D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tb6612/tb6612.h:

@@ -79,7 +79,13 @@ main.o: ../main.c \
  D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/hc_06/hc_06.h \
  D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/usart/usart.h \
  D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h \
- D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tb6612/tb6612.h
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tb6612/tb6612.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/motor/motor.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/pid/pid.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/task/task.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/mpu6050/mpu6050.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tracking/tracking.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/buzzer/buzzer.h
 ti_msp_dl_config.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/msp/msp.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/DeviceFamily.h:
@@ -159,3 +165,9 @@ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/hc_06/hc_06.h:
 D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/usart/usart.h:
 D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h:
 D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tb6612/tb6612.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/motor/motor.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/pid/pid.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/task/task.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/mpu6050/mpu6050.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tracking/tracking.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/buzzer/buzzer.h:

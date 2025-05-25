@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//Debug/app/buzzer/subdir_rules.mk=UTF-8
+encoding//Debug/app/buzzer/subdir_vars.mk=UTF-8
 encoding//Debug/app/encoder/subdir_rules.mk=UTF-8
 encoding//Debug/app/encoder/subdir_vars.mk=UTF-8
 encoding//Debug/app/hc_06/subdir_rules.mk=UTF-8
@@ -9,6 +11,8 @@ encoding//Debug/app/mpu6050/subdir_rules.mk=UTF-8
 encoding//Debug/app/mpu6050/subdir_vars.mk=UTF-8
 encoding//Debug/app/tb6612/subdir_rules.mk=UTF-8
 encoding//Debug/app/tb6612/subdir_vars.mk=UTF-8
+encoding//Debug/app/tracking/subdir_rules.mk=UTF-8
+encoding//Debug/app/tracking/subdir_vars.mk=UTF-8
 encoding//Debug/delay/subdir_rules.mk=UTF-8
 encoding//Debug/delay/subdir_vars.mk=UTF-8
 encoding//Debug/lib/delay/subdir_rules.mk=UTF-8

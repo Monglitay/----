@@ -1,213 +1,111 @@
 #include "encoder.h"
-#include "delay.h"
+#include "tb6612.h"
 
-#define DEBOUNCE_TIME 200
-static volatile int64_t encoder_l = 0; // 左电机编码器的值
-static volatile int64_t encoder_r = 0; // 右电机编码器的值
-static volatile int8_t direction_l = 1; // 左电机旋转的方向，1 - 正转，-1 - 反转
-static volatile int8_t direction_r = 1; // 右电机旋转的方向，1 - 正转，-1 - 反转
-static volatile uint64_t t0_l = 0, t1_l = 0; // 左电机编码器发生变化的时间，单位us
-static volatile uint64_t t0_r = 0, t1_r = 0; // 右电机编码器发生变化的时间，单位us
+// 编码器相关全局变量
+volatile uint32_t Encoder_L_Port, Encoder_R_Port;      // 左右编码器端口状态
+volatile int32_t Encoder_L_CNT, Encoder_R_CNT;         // 左右编码器计数值
+volatile int32_t Encoder_L_VEL, Encoder_R_VEL;         // 左右马达速度 
 
-// 右编码器滤波相关变量
-#define MOVING_AVG_WINDOW 4    // 滑动平均窗口大小
-#define LOWPASS_ALPHA     0.2f // 低通滤波系数
-
-static float r_speed_buffer[MOVING_AVG_WINDOW] = {0};
-static uint8_t r_buffer_index = 0;
-static float r_filtered_speed = 0.0f;
-
-#define MOVING_AVG_WINDOW 4    // 滑动平均窗口大小
-#define LOWPASS_ALPHA     0.2f // 低通滤波系数
-
-static float l_speed_buffer[MOVING_AVG_WINDOW] = {0};
-static uint8_t l_buffer_index = 0;
-static float l_filtered_speed = 0.0f;
+/**
+ * @brief 初始化编码器
+ * 
+ * 该函数关闭所有电机输出，并使能编码器相关的中断
+ */
 void Encoder_Init(void)
 {
-    NVIC_EnableIRQ(ENCODER_GPIOA_INT_IIDX);
-    NVIC_EnableIRQ(ENCODER_GPIOB_INT_IIDX);
+    /* 关闭所有电机输出 */
+    AIN1_OUT(0);
+    AIN2_OUT(0);
+    BIN1_OUT(0);
+    BIN2_OUT(0);
+    
+    /* 使能编码器相关中断 */
+    NVIC_EnableIRQ(GPIO_Encoder_R_INT_IRQN);
+    NVIC_EnableIRQ(GPIO_Encoder_L_INT_IRQN);
+    NVIC_EnableIRQ(TIMER_Encoder_Read_INST_INT_IRQN);
+    
+    /* 启动编码器读取定时器 */
+    DL_Timer_startCounter(TIMER_Encoder_Read_INST);
 }
-void GROUP1_IRQHandler(void)//Group1的中断服务函数
+
+/**
+ * @brief 编码器读取中断服务函数
+ * 
+ * 该函数在定时器中断触发时调用，用于读取和重置编码器计数值
+ */
+void TIMER_Encoder_Read_INST_IRQHandler(void)
 {
-    //读取Group1的中断寄存器并清除中断标志位
-    uint32_t pending=DL_Interrupt_getPendingGroup(DL_INTERRUPT_GROUP_1);
-    if( pending ==ENCODER_GPIOA_INT_IIDX || pending ==ENCODER_GPIOB_INT_IIDX )
+    switch (DL_TimerG_getPendingInterrupt(TIMER_Encoder_Read_INST)){
+        case DL_TIMER_IIDX_ZERO:
+            // 更新速度值并重置计数器
+            Encoder_L_VEL = Encoder_L_CNT;
+            Encoder_L_CNT = 0;
+            Encoder_R_VEL = Encoder_R_CNT;
+            Encoder_R_CNT = 0;
+            break;
+        default:
+            break;
+    }
+}
+
+/**
+ * @brief 编码器GPIO中断处理函数
+ * 
+ * 该函数处理编码器A和B的GPIO中断，更新编码器计数值
+ */
+void GROUP1_IRQHandler(void)
+{
+    // 获取左右编码器的中断状态
+    Encoder_L_Port = DL_GPIO_getEnabledInterruptStatus(GPIO_Encoder_L_PORT, GPIO_Encoder_L_L_A_PIN | GPIO_Encoder_L_L_B_PIN);
+    Encoder_R_Port = DL_GPIO_getEnabledInterruptStatus(GPIO_Encoder_R_PORT, GPIO_Encoder_R_R_A_PIN | GPIO_Encoder_R_R_B_PIN);
+    
+    /* 处理左编码器 */
+    if((Encoder_L_Port & GPIO_Encoder_L_L_A_PIN) == GPIO_Encoder_L_L_A_PIN)
     {
-
-        if(DL_GPIO_getEnabledInterruptStatus(ENCODER_R_B_PORT, ENCODER_R_B_PIN))
-        {
-            int a = DL_GPIO_readPins(ENCODER_R_A_PORT,ENCODER_R_A_PIN);
-            int b = DL_GPIO_readPins(ENCODER_R_B_PORT,ENCODER_R_B_PIN);
-            t1_r = t0_r;
-	        t0_r = get_ticks_us();
-            if ((a >0 && b >0) || (a ==0 && b ==0))
-            {
-                encoder_r++;
-                
-                if(direction_r < 0) // 之前轮胎是反转
-                {
-                    direction_r = +2;
-                }
-                else
-                {
-                    direction_r = 1;
-                }
-	        }
-            else
-            {
-                encoder_r--;
-		
-                if(direction_r > 0) // 之前轮胎是正转
-                {
-                    direction_r = -2;
-                }
-                else
-                {
-                    direction_r = -1;
-                }
-            }
-            DL_GPIO_clearInterruptStatus(ENCODER_R_B_PORT, ENCODER_R_B_PIN);
-        }
-        if(DL_GPIO_getEnabledInterruptStatus(ENCODER_L_B_PORT, ENCODER_L_B_PIN))
-        {
-            int a = DL_GPIO_readPins(ENCODER_L_A_PORT,ENCODER_L_A_PIN);
-            int b = DL_GPIO_readPins(ENCODER_L_B_PORT,ENCODER_L_B_PIN);
-            t1_l = t0_l;
-	        t0_l = get_ticks_us();
-            if ((a >0 && b >0) || (a ==0 && b ==0))
-            {
-                encoder_l--;
-                
-                if(direction_l > 0) // 之前轮胎是正转
-                {
-                    direction_l = -2;
-                }
-                else
-                {
-                    direction_l = -1;
-                }
-            }
-            else // 现在轮胎是正转
-            {
-                encoder_l++;
-                
-                if(direction_l < 0) // 之前轮胎是反转，现在轮胎是正转
-                {
-                    direction_l = +2;
-                }
-                else
-                {
-                    direction_l = 1;
-                }
-            }
-            DL_GPIO_clearInterruptStatus(ENCODER_L_B_PORT, ENCODER_L_B_PIN);
-        }
-        
+        // 根据B相状态判断旋转方向
+        if(!DL_GPIO_readPins(GPIO_Encoder_L_PORT,GPIO_Encoder_L_L_B_PIN))   Encoder_L_CNT--;
+        else                                                                Encoder_L_CNT++;
     }
-}
-//
-// @简介：获取左编码器的角度
-// @单位：度
-float Encoder_Get_L(void)
-{
-    float res = encoder_l *0.8017;
-    return res;
-}
-//
-// @简介：获取右轮胎的角度
-// @单位：度
-float Encoder_Get_R(void)
-{
-    float res = encoder_r *0.8017;
-    return res;
-}
-
-
-
-
-
-float Encoder_Get_R_Speed(void)
-{
-	__disable_irq(); // 关闭单片机的总中断
-	
-	int8_t direction_cpy = direction_r;
-	uint64_t t0_cpy = t0_r;
-	uint64_t t1_cpy = t1_r;
-	
-	__enable_irq(); // 开启单片机的总中断
-	
-	
-	uint64_t now = get_ticks_us();
-	
-	float T;
-	
-	if(t0_cpy - t1_cpy > now - t0_cpy)
-	{
-		T = (t0_cpy - t1_cpy) * 1.0e-6f;
-	}
-	else
-	{
-		T = (now - t0_cpy) * 1.0e-6f;
-	}
-
-
-	
-    float raw_speed = direction_cpy / T *0.8017;
-
-    // 滑动平均滤波
-    r_speed_buffer[r_buffer_index] = raw_speed;
-    r_buffer_index = (r_buffer_index + 1) % MOVING_AVG_WINDOW;
-
-    float moving_avg = 0;
-    for(int i=0; i<MOVING_AVG_WINDOW; i++) {
-        moving_avg += r_speed_buffer[i];
-    }
-    moving_avg /= MOVING_AVG_WINDOW;
-
-    // 低通滤波
-    r_filtered_speed = LOWPASS_ALPHA * moving_avg + (1 - LOWPASS_ALPHA) * r_filtered_speed;
-    return r_filtered_speed;
-}
-
-float Encoder_Get_L_Speed(void)
-{
-    __disable_irq(); // 关闭总中断
-    
-    int8_t direction_cpy = direction_l;
-    uint64_t t0_cpy = t0_l;
-    uint64_t t1_cpy = t1_l;
-    
-    __enable_irq(); // 开启总中断
-    
-
-    
-    uint64_t now = get_ticks_us();
-    float T;
-    
-    if(t0_cpy - t1_cpy > now - t0_cpy)
+    else if((Encoder_L_Port & GPIO_Encoder_L_L_B_PIN) == GPIO_Encoder_L_L_B_PIN)
     {
-        T = (t0_cpy - t1_cpy) * 1.0e-6f;
+        // 根据A相状态判断旋转方向
+        if(!DL_GPIO_readPins(GPIO_Encoder_L_PORT,GPIO_Encoder_L_L_A_PIN))   Encoder_L_CNT++;
+        else                                                                Encoder_L_CNT--;
     }
-    else
+    // 清除左编码器中断标志
+    DL_GPIO_clearInterruptStatus(GPIO_Encoder_L_PORT, GPIO_Encoder_L_L_A_PIN|GPIO_Encoder_L_L_B_PIN);
+
+    /* 处理右编码器 */
+    if((Encoder_R_Port & GPIO_Encoder_R_R_A_PIN) == GPIO_Encoder_R_R_A_PIN)
     {
-        T = (now - t0_cpy) * 1.0e-6f;
+        // 根据B相状态判断旋转方向
+        if(!DL_GPIO_readPins(GPIO_Encoder_R_PORT,GPIO_Encoder_R_R_B_PIN))   Encoder_R_CNT--;
+        else                                                                Encoder_R_CNT++;
     }
-    
-    float raw_speed = direction_cpy / T /0.8017;
-
-    // 滑动平均滤波
-    l_speed_buffer[l_buffer_index] = raw_speed;
-    l_buffer_index = (l_buffer_index + 1) % MOVING_AVG_WINDOW;
-
-    float moving_avg = 0;
-    for(int i=0; i<MOVING_AVG_WINDOW; i++) {
-        moving_avg += l_speed_buffer[i];
+    else if((Encoder_R_Port & GPIO_Encoder_R_R_B_PIN) == GPIO_Encoder_R_R_B_PIN)
+    {
+        // 根据A相状态判断旋转方向
+        if(!DL_GPIO_readPins(GPIO_Encoder_R_PORT,GPIO_Encoder_R_R_A_PIN))   Encoder_R_CNT++;
+        else                                                                Encoder_R_CNT--;
     }
-    moving_avg /= MOVING_AVG_WINDOW;
+    // 清除右编码器中断标志
+    DL_GPIO_clearInterruptStatus(GPIO_Encoder_R_PORT, GPIO_Encoder_R_R_A_PIN|GPIO_Encoder_R_R_B_PIN);
+}
 
-    // 一阶低通滤波
-    l_filtered_speed = LOWPASS_ALPHA * moving_avg + (1 - LOWPASS_ALPHA) * l_filtered_speed;
+/**
+ * @brief 获取左轮速度
+ * @return 左轮速度值
+ */
+int32_t Encoder_Get_L_Speed()
+{
+    return Encoder_L_VEL;
+}
 
-    return l_filtered_speed;
+/**
+ * @brief 获取右轮速度
+ * @return 右轮速度值（取反）
+ */
+int32_t Encoder_Get_R_Speed()
+{
+    return -Encoder_R_VEL;
 }

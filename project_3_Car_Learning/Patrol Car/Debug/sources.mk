@@ -125,11 +125,13 @@ GEN_OPTS__QUOTED :=
 # Every subdirectory with source files must be described here
 SUBDIRS := \
 . \
+app/buzzer \
 app/encoder \
 app/hc_06 \
 app/motor \
 app/mpu6050 \
 app/tb6612 \
+app/tracking \
 lib/delay \
 lib/key \
 lib/pid \
