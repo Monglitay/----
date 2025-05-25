@@ -29,5 +29,6 @@ void USART_SendString(USART_Typedef *USARTx,char *str);
 void USART_SendChar(USART_Typedef *USARTx,char ch);
 
 void USART_Printf(USART_Typedef *USARTx,const char *Format, ...);
-
-#endif /* __USART_H_ */  // 结束#ifndef __USART_H_的条件编译
+void UART_IRQHandler(UART_Regs *UART, volatile unsigned char usart_ch, volatile unsigned char usart_str[256],
+                     volatile unsigned int *usart_str_index, volatile unsigned int *usart_str_received);
+#endif
