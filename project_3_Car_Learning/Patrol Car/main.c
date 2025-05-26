@@ -9,16 +9,22 @@
 #include "tracking.h"
 #include "buzzer.h" 
 
+
 // 小车运行速度
 static float speed = 12;
+
 // 状态机状态变量
 int state = 0;
 // 计数器
 int cnt = 0;
+
 // 上一次转向时间
 int32_t last_turned_ticks = 0;
-//
+// 转向标志位
 int turning_flag = 0;
+//最大转向时间
+#define MAX_TURNING_TICKS 3000
+
 // 任务声明
 void Task_1();
 void Task_2();
@@ -51,12 +57,11 @@ int main(void)
 }
 
 /**
- * @brief 任务1（预留/备用）
- * @details 
- * 状态机实现，包含：
- * 1. 设备初始状态检测
- * 2. 检测黑线并切换状态
- * 3. 蜂鸣器和电机联动
+ * @brief 巡线小车直线路径运动控制函数（AB)
+ * @details 通过状态机实现小车在A点处直行到B点
+ * 状态机工作流程：
+ * - state 0: 从A运动到B,走0度直线
+ * - state 1: 检测到达B点
  */
 void Task_1()
 {
@@ -107,15 +112,14 @@ void Task_1()
 }
 
 /**
- * @brief 主任务执行函数
- * @details 
- * 复杂的状态机实现，包含多个状态：
- * 0. 初始状态：普通行驶
- * 1. 黑线检测状态
- * 2. 进入循迹模式
- * 3. 退出循迹模式
- * 4. 再次循迹
- * 5. 停止
+ * @brief 巡线小车椭圆路径运动控制函数（ABCDA)
+ * @details 通过状态机实现小车在两个半圆上连续运动1圈
+ * 状态机工作流程：
+ * - state 0: 从A运动到B,走0度直线
+ * - state 1: 检测到达B点
+ * - state 2：从B巡线到C
+ * - state 3: 从C运动到D，走225度直线
+ * - state 4: 从D运动到A，在结尾处回正
  */
 void Task_2()
 {
@@ -225,6 +229,16 @@ void Task_2()
     }
 }
 
+/**
+ * @brief 巡线小车8字路径运动控制函数(ACBDA)
+ * @details 通过状态机实现小车在两个半圆上连续运动1圈
+ * 状态机工作流程：
+ * - state 0: 从A运动到C,走-45度直线
+ * - state 1: 检测到达C点，并回正
+ * - state 2：从C巡线到B，并在B点回正
+ * - state 3: 从B运动到D，走225度直线
+ * - state 4: 从D运动到A，在结尾处回正
+ */
 void Task_3()
 {
     // 周期性处理传感器和执行器
@@ -236,7 +250,7 @@ void Task_3()
     {
         Motor_SetSpeed_R(speed);   // 设置右电机速度
         Motor_SetSpeed_L(speed);   // 设置左电机速度
-        Motor_direction(45);     // 设置电机方向45度
+        Motor_direction(-45);     // 设置电机方向-45度
         
         // 检测是否脱离黑线
         if(!(IS_INBLACK()))
@@ -244,7 +258,6 @@ void Task_3()
             cnt++;
             if(cnt > 20)             
             {
-                
                 state = 1;           
                 cnt = 0;
                 tracking_flag = 0;
@@ -252,21 +265,107 @@ void Task_3()
             }
         }
     }
-    // 状态1：检测黑线
+    // 状态1：检测黑线然后转向回正
     else if(state == 1)
     {
-        Motor_direction(45);
+        if(IS_INBLACK())
+        {
+            cnt++;
+            if(cnt > 20)             
+            {
+                if(turning_flag == 0)
+                last_turned_ticks = get_ticks();
+                turning_flag = 1;   //开始转向
+                if(get_ticks() - last_turned_ticks < MAX_TURNING_TICKS )  
+                {
+                    Motor_SetSpeed_L(0);
+                    Motor_SetSpeed_R(0);
+                    Motor_direction(0);
+                    return;
+                }
+                else 
+                {
+                    turning_flag = 0;   //转向结束
+                    Motor_SetSpeed_L(speed);
+                    Motor_SetSpeed_R(speed);
+                    
+                    buzzer_flag = 1;    //进入状态2
+                    state = 2;               
+                    cnt = 0;
+                    return;
+                }
+
+                
+            }
+        }
+        else cnt = 0;
+    }
+    else if (state == 2)
+    {
+        tracking_flag = 1;
+        if(!(IS_INBLACK()))
+        {
+            cnt++;
+            if(cnt > 20)             
+            {   
+                tracking_flag = 0;
+                if(turning_flag == 0)
+                last_turned_ticks = get_ticks();
+                turning_flag = 1;   //开始转向
+                if(get_ticks() - last_turned_ticks < MAX_TURNING_TICKS )  
+                {
+                    Motor_SetSpeed_L(0);
+                    Motor_SetSpeed_R(0);
+                    Motor_direction(225);
+                    return;
+                }
+                else 
+                {
+                    turning_flag = 0;  //转向结束
+                    Motor_SetSpeed_L(speed);
+                    Motor_SetSpeed_R(speed);
+                    buzzer_flag = 1;
+                    state = 3;           
+                    tracking_flag = 0;  //进入状态3
+                    return;
+                }
+                
+            }
+        } else cnt = 0;
+    }
+    else if (state == 3)
+    {
+        tracking_flag = 0;
+        Motor_direction(225);
         if(IS_INBLACK())
         {
             cnt++;
             if(cnt > 20)             
             {
                 buzzer_flag = 1;
-                state = 2;               
-                cnt = 0;
+                state = 4;          
+                cnt = 0; 
                 return;
             }
-        }
-        else cnt = 0;
+        } else cnt = 0;
+    }
+    else if (state == 4)
+    {
+        tracking_flag = 1;
+        if(!(IS_INBLACK()))
+        {
+            cnt++;
+            if(cnt > 20)             
+            {
+                buzzer_flag = 1;
+                state = 5;           
+                cnt = 0;
+                tracking_flag = 0;
+                Motor_SetSpeed_L(0);
+                Motor_SetSpeed_R(0);
+                Motor_direction(0);
+                return;
+            }
+        } else cnt = 0;
     }
 }

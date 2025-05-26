@@ -44,6 +44,7 @@ void Buzzer_Off()
  */
 void Buzzer_Proc()
 {
+    
     // 如果蜂鸣器标志为1，则开启蜂鸣器
     if(buzzer_flag == 1)
     {
