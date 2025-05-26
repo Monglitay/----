@@ -3,15 +3,15 @@
 
 #include "ti_msp_dl_config.h"
 
-// ³õÊ¼»¯±àÂëÆ÷
+// åˆå§‹åŒ–ç¼–ç å™¨
 void Encoder_Init(void);
-// »ñÈ¡×ó±àÂëÆ÷µÄÖµ
+// è·å–å·¦ç¼–ç å™¨çš„å€¼
 float Encoder_Get_L(void);
-// »ñÈ¡ÓÒ±àÂëÆ÷µÄÖµ
+// è·å–å³ç¼–ç å™¨çš„å€¼
 float Encoder_Get_R(void);
-// »ñÈ¡×ó±àÂëÆ÷µÄËÙ¶È
+// è·å–å·¦ç¼–ç å™¨çš„é€Ÿåº¦
 int32_t Encoder_Get_L_Speed(void);
-// »ñÈ¡ÓÒ±àÂëÆ÷µÄËÙ¶È
+// è·å–å³ç¼–ç å™¨çš„é€Ÿåº¦
 int32_t Encoder_Get_R_Speed(void);
 
 #endif

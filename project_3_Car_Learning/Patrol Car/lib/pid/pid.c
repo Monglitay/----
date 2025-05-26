@@ -2,33 +2,33 @@
 #include "delay.h"
 #include "math.h"
 
-// ¶¨ÒåÎó²îËÀÇø£¬Ğ¡ÓÚ´ËÖµµÄÎó²î½«±»ÊÓÎªÁã
+// å®šä¹‰è¯¯å·®æ­»åŒºï¼Œå°äºæ­¤å€¼çš„è¯¯å·®å°†è¢«è§†ä¸ºé›¶
 #define ERROR_DEADZONE 2
 
 /**
- * @brief ³õÊ¼»¯PID¿ØÖÆÆ÷
- * @param PIDx PID¿ØÖÆÆ÷½á¹¹ÌåÖ¸Õë
- * @param kp ±ÈÀıÏµÊı
- * @param ki »ı·ÖÏµÊı
- * @param kd Î¢·ÖÏµÊı
+ * @brief åˆå§‹åŒ–PIDæ§åˆ¶å™¨
+ * @param PIDx PIDæ§åˆ¶å™¨ç»“æ„ä½“æŒ‡é’ˆ
+ * @param kp æ¯”ä¾‹ç³»æ•°
+ * @param ki ç§¯åˆ†ç³»æ•°
+ * @param kd å¾®åˆ†ç³»æ•°
  */
 void PID_Init(PID_Tpyedef *PIDx, float kp, float ki, float kd)
 {
     PIDx->kp = kp;
     PIDx->ki = ki;
     PIDx->kd = kd;
-    PIDx->sp = 0.0f;     // Éè¶¨Öµ³õÊ¼»¯Îª0
-    PIDx->err = 0;       // µ±Ç°Îó²î
-    PIDx->last_err = 0;  // ÉÏÒ»´ÎÎó²î
-    PIDx->last2_err = 0; // ÉÏÉÏ´ÎÎó²î
-    PIDx->co = 0;        // ¿ØÖÆÊä³ö³õÊ¼»¯Îª0
+    PIDx->sp = 0.0f;     // è®¾å®šå€¼åˆå§‹åŒ–ä¸º0
+    PIDx->err = 0;       // å½“å‰è¯¯å·®
+    PIDx->last_err = 0;  // ä¸Šä¸€æ¬¡è¯¯å·®
+    PIDx->last2_err = 0; // ä¸Šä¸Šæ¬¡è¯¯å·®
+    PIDx->co = 0;        // æ§åˆ¶è¾“å‡ºåˆå§‹åŒ–ä¸º0
 }
 
 /**
- * @brief ÏŞÖÆPIDÊä³öÖµÔÚÖ¸¶¨·¶Î§ÄÚ
- * @param co ¿ØÖÆÊä³öÖ¸Õë
- * @param Upper ÉÏÏŞ
- * @param Lower ÏÂÏŞ
+ * @brief é™åˆ¶PIDè¾“å‡ºå€¼åœ¨æŒ‡å®šèŒƒå›´å†…
+ * @param co æ§åˆ¶è¾“å‡ºæŒ‡é’ˆ
+ * @param Upper ä¸Šé™
+ * @param Lower ä¸‹é™
  */
 void PID_Limmit(float *co, float Upper, float Lower)
 {
@@ -37,9 +37,9 @@ void PID_Limmit(float *co, float Upper, float Lower)
 }
 
 /**
- * @brief ¸Ä±äPID¿ØÖÆÆ÷µÄÉè¶¨Öµ
- * @param PIDx PID¿ØÖÆÆ÷½á¹¹ÌåÖ¸Õë
- * @param sp ĞÂµÄÉè¶¨Öµ
+ * @brief æ”¹å˜PIDæ§åˆ¶å™¨çš„è®¾å®šå€¼
+ * @param PIDx PIDæ§åˆ¶å™¨ç»“æ„ä½“æŒ‡é’ˆ
+ * @param sp æ–°çš„è®¾å®šå€¼
  */
 void PID_ChangeSP(PID_Tpyedef *PIDx, float sp)
 {
@@ -47,24 +47,24 @@ void PID_ChangeSP(PID_Tpyedef *PIDx, float sp)
 }
 
 /**
- * @brief ¼ÆËãPID¿ØÖÆÊä³ö
- * @param PIDx PID¿ØÖÆÆ÷½á¹¹ÌåÖ¸Õë
- * @param fb ·´À¡Öµ
- * @return ·µ»Ø¼ÆËãºóµÄ¿ØÖÆÊä³ö
+ * @brief è®¡ç®—PIDæ§åˆ¶è¾“å‡º
+ * @param PIDx PIDæ§åˆ¶å™¨ç»“æ„ä½“æŒ‡é’ˆ
+ * @param fb åé¦ˆå€¼
+ * @return è¿”å›è®¡ç®—åçš„æ§åˆ¶è¾“å‡º
  */
 float PID_Compute(PID_Tpyedef *PIDx, float fb)
 {
-    PIDx->err = PIDx->sp - fb;  // ¼ÆËãµ±Ç°Îó²î
+    PIDx->err = PIDx->sp - fb;  // è®¡ç®—å½“å‰è¯¯å·®
     
-    // ÔöÁ¿Ê½PIDËã·¨
+    // å¢é‡å¼PIDç®—æ³•
     PIDx->co += PIDx->kp * (PIDx->err - PIDx->last_err) +
                 PIDx->ki * PIDx->err +
                 PIDx->kd * (PIDx->err - 2 * PIDx->last_err + PIDx->last2_err);
     
-    PIDx->last2_err = PIDx->last_err;  // ¸üĞÂÉÏÉÏ´ÎÎó²î
-    PIDx->last_err = PIDx->err;        // ¸üĞÂÉÏ´ÎÎó²î
+    PIDx->last2_err = PIDx->last_err;  // æ›´æ–°ä¸Šä¸Šæ¬¡è¯¯å·®
+    PIDx->last_err = PIDx->err;        // æ›´æ–°ä¸Šæ¬¡è¯¯å·®
     
-    // Îó²îËÀÇø´¦Àí
+    // è¯¯å·®æ­»åŒºå¤„ç†
     if (fabs(PIDx->err) < ERROR_DEADZONE) 
     {
         PIDx->err = 0;
@@ -74,8 +74,8 @@ float PID_Compute(PID_Tpyedef *PIDx, float fb)
 }
 
 /**
- * @brief ÖØÖÃPID¿ØÖÆÆ÷
- * @param PIDx PID¿ØÖÆÆ÷½á¹¹ÌåÖ¸Õë
+ * @brief é‡ç½®PIDæ§åˆ¶å™¨
+ * @param PIDx PIDæ§åˆ¶å™¨ç»“æ„ä½“æŒ‡é’ˆ
  */
 void PID_Reset(PID_Tpyedef *PIDx)
 {

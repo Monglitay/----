@@ -1,43 +1,43 @@
 #include "encoder.h"
 #include "tb6612.h"
 
-// ±àÂëÆ÷Ïà¹ØÈ«¾Ö±äÁ¿
-volatile uint32_t Encoder_L_Port, Encoder_R_Port;      // ×óÓÒ±àÂëÆ÷¶Ë¿Ú×´Ì¬
-volatile int32_t Encoder_L_CNT, Encoder_R_CNT;         // ×óÓÒ±àÂëÆ÷¼ÆÊıÖµ
-volatile int32_t Encoder_L_VEL, Encoder_R_VEL;         // ×óÓÒÂí´ïËÙ¶È 
+// ç¼–ç å™¨ç›¸å…³å…¨å±€å˜é‡
+volatile uint32_t Encoder_L_Port, Encoder_R_Port;      // å·¦å³ç¼–ç å™¨ç«¯å£çŠ¶æ€
+volatile int32_t Encoder_L_CNT, Encoder_R_CNT;         // å·¦å³ç¼–ç å™¨è®¡æ•°å€¼
+volatile int32_t Encoder_L_VEL, Encoder_R_VEL;         // å·¦å³é©¬è¾¾é€Ÿåº¦ 
 
 /**
- * @brief ³õÊ¼»¯±àÂëÆ÷
+ * @brief åˆå§‹åŒ–ç¼–ç å™¨
  * 
- * ¸Ãº¯Êı¹Ø±ÕËùÓĞµç»úÊä³ö£¬²¢Ê¹ÄÜ±àÂëÆ÷Ïà¹ØµÄÖĞ¶Ï
+ * è¯¥å‡½æ•°å…³é—­æ‰€æœ‰ç”µæœºè¾“å‡ºï¼Œå¹¶ä½¿èƒ½ç¼–ç å™¨ç›¸å…³çš„ä¸­æ–­
  */
 void Encoder_Init(void)
 {
-    /* ¹Ø±ÕËùÓĞµç»úÊä³ö */
+    /* å…³é—­æ‰€æœ‰ç”µæœºè¾“å‡º */
     AIN1_OUT(0);
     AIN2_OUT(0);
     BIN1_OUT(0);
     BIN2_OUT(0);
     
-    /* Ê¹ÄÜ±àÂëÆ÷Ïà¹ØÖĞ¶Ï */
+    /* ä½¿èƒ½ç¼–ç å™¨ç›¸å…³ä¸­æ–­ */
     NVIC_EnableIRQ(GPIO_Encoder_R_INT_IRQN);
     NVIC_EnableIRQ(GPIO_Encoder_L_INT_IRQN);
     NVIC_EnableIRQ(TIMER_Encoder_Read_INST_INT_IRQN);
     
-    /* Æô¶¯±àÂëÆ÷¶ÁÈ¡¶¨Ê±Æ÷ */
+    /* å¯åŠ¨ç¼–ç å™¨è¯»å–å®šæ—¶å™¨ */
     DL_Timer_startCounter(TIMER_Encoder_Read_INST);
 }
 
 /**
- * @brief ±àÂëÆ÷¶ÁÈ¡ÖĞ¶Ï·şÎñº¯Êı
+ * @brief ç¼–ç å™¨è¯»å–ä¸­æ–­æœåŠ¡å‡½æ•°
  * 
- * ¸Ãº¯ÊıÔÚ¶¨Ê±Æ÷ÖĞ¶Ï´¥·¢Ê±µ÷ÓÃ£¬ÓÃÓÚ¶ÁÈ¡ºÍÖØÖÃ±àÂëÆ÷¼ÆÊıÖµ
+ * è¯¥å‡½æ•°åœ¨å®šæ—¶å™¨ä¸­æ–­è§¦å‘æ—¶è°ƒç”¨ï¼Œç”¨äºè¯»å–å’Œé‡ç½®ç¼–ç å™¨è®¡æ•°å€¼
  */
 void TIMER_Encoder_Read_INST_IRQHandler(void)
 {
     switch (DL_TimerG_getPendingInterrupt(TIMER_Encoder_Read_INST)){
         case DL_TIMER_IIDX_ZERO:
-            // ¸üĞÂËÙ¶ÈÖµ²¢ÖØÖÃ¼ÆÊıÆ÷
+            // æ›´æ–°é€Ÿåº¦å€¼å¹¶é‡ç½®è®¡æ•°å™¨
             Encoder_L_VEL = Encoder_L_CNT;
             Encoder_L_CNT = 0;
             Encoder_R_VEL = Encoder_R_CNT;
@@ -49,52 +49,52 @@ void TIMER_Encoder_Read_INST_IRQHandler(void)
 }
 
 /**
- * @brief ±àÂëÆ÷GPIOÖĞ¶Ï´¦Àíº¯Êı
+ * @brief ç¼–ç å™¨GPIOä¸­æ–­å¤„ç†å‡½æ•°
  * 
- * ¸Ãº¯Êı´¦Àí±àÂëÆ÷AºÍBµÄGPIOÖĞ¶Ï£¬¸üĞÂ±àÂëÆ÷¼ÆÊıÖµ
+ * è¯¥å‡½æ•°å¤„ç†ç¼–ç å™¨Aå’ŒBçš„GPIOä¸­æ–­ï¼Œæ›´æ–°ç¼–ç å™¨è®¡æ•°å€¼
  */
 void GROUP1_IRQHandler(void)
 {
-    // »ñÈ¡×óÓÒ±àÂëÆ÷µÄÖĞ¶Ï×´Ì¬
+    // è·å–å·¦å³ç¼–ç å™¨çš„ä¸­æ–­çŠ¶æ€
     Encoder_L_Port = DL_GPIO_getEnabledInterruptStatus(GPIO_Encoder_L_PORT, GPIO_Encoder_L_L_A_PIN | GPIO_Encoder_L_L_B_PIN);
     Encoder_R_Port = DL_GPIO_getEnabledInterruptStatus(GPIO_Encoder_R_PORT, GPIO_Encoder_R_R_A_PIN | GPIO_Encoder_R_R_B_PIN);
     
-    /* ´¦Àí×ó±àÂëÆ÷ */
+    /* å¤„ç†å·¦ç¼–ç å™¨ */
     if((Encoder_L_Port & GPIO_Encoder_L_L_A_PIN) == GPIO_Encoder_L_L_A_PIN)
     {
-        // ¸ù¾İBÏà×´Ì¬ÅĞ¶ÏĞı×ª·½Ïò
+        // æ ¹æ®Bç›¸çŠ¶æ€åˆ¤æ–­æ—‹è½¬æ–¹å‘
         if(!DL_GPIO_readPins(GPIO_Encoder_L_PORT,GPIO_Encoder_L_L_B_PIN))   Encoder_L_CNT--;
         else                                                                Encoder_L_CNT++;
     }
     else if((Encoder_L_Port & GPIO_Encoder_L_L_B_PIN) == GPIO_Encoder_L_L_B_PIN)
     {
-        // ¸ù¾İAÏà×´Ì¬ÅĞ¶ÏĞı×ª·½Ïò
+        // æ ¹æ®Aç›¸çŠ¶æ€åˆ¤æ–­æ—‹è½¬æ–¹å‘
         if(!DL_GPIO_readPins(GPIO_Encoder_L_PORT,GPIO_Encoder_L_L_A_PIN))   Encoder_L_CNT++;
         else                                                                Encoder_L_CNT--;
     }
-    // Çå³ı×ó±àÂëÆ÷ÖĞ¶Ï±êÖ¾
+    // æ¸…é™¤å·¦ç¼–ç å™¨ä¸­æ–­æ ‡å¿—
     DL_GPIO_clearInterruptStatus(GPIO_Encoder_L_PORT, GPIO_Encoder_L_L_A_PIN|GPIO_Encoder_L_L_B_PIN);
 
-    /* ´¦ÀíÓÒ±àÂëÆ÷ */
+    /* å¤„ç†å³ç¼–ç å™¨ */
     if((Encoder_R_Port & GPIO_Encoder_R_R_A_PIN) == GPIO_Encoder_R_R_A_PIN)
     {
-        // ¸ù¾İBÏà×´Ì¬ÅĞ¶ÏĞı×ª·½Ïò
+        // æ ¹æ®Bç›¸çŠ¶æ€åˆ¤æ–­æ—‹è½¬æ–¹å‘
         if(!DL_GPIO_readPins(GPIO_Encoder_R_PORT,GPIO_Encoder_R_R_B_PIN))   Encoder_R_CNT--;
         else                                                                Encoder_R_CNT++;
     }
     else if((Encoder_R_Port & GPIO_Encoder_R_R_B_PIN) == GPIO_Encoder_R_R_B_PIN)
     {
-        // ¸ù¾İAÏà×´Ì¬ÅĞ¶ÏĞı×ª·½Ïò
+        // æ ¹æ®Aç›¸çŠ¶æ€åˆ¤æ–­æ—‹è½¬æ–¹å‘
         if(!DL_GPIO_readPins(GPIO_Encoder_R_PORT,GPIO_Encoder_R_R_A_PIN))   Encoder_R_CNT++;
         else                                                                Encoder_R_CNT--;
     }
-    // Çå³ıÓÒ±àÂëÆ÷ÖĞ¶Ï±êÖ¾
+    // æ¸…é™¤å³ç¼–ç å™¨ä¸­æ–­æ ‡å¿—
     DL_GPIO_clearInterruptStatus(GPIO_Encoder_R_PORT, GPIO_Encoder_R_R_A_PIN|GPIO_Encoder_R_R_B_PIN);
 }
 
 /**
- * @brief »ñÈ¡×óÂÖËÙ¶È
- * @return ×óÂÖËÙ¶ÈÖµ
+ * @brief è·å–å·¦è½®é€Ÿåº¦
+ * @return å·¦è½®é€Ÿåº¦å€¼
  */
 int32_t Encoder_Get_L_Speed()
 {
@@ -102,8 +102,8 @@ int32_t Encoder_Get_L_Speed()
 }
 
 /**
- * @brief »ñÈ¡ÓÒÂÖËÙ¶È
- * @return ÓÒÂÖËÙ¶ÈÖµ£¨È¡·´£©
+ * @brief è·å–å³è½®é€Ÿåº¦
+ * @return å³è½®é€Ÿåº¦å€¼ï¼ˆå–åï¼‰
  */
 int32_t Encoder_Get_R_Speed()
 {

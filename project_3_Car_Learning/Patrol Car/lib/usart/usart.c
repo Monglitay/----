@@ -3,16 +3,16 @@
 #include <string.h>
 #include <stdarg.h>
 
-// USART0-3 ½ÓÊÕÏà¹Ø±äÁ¿
+// USART0-3 æ¥æ”¶ç›¸å…³å˜é‡
 volatile unsigned char usart0_ch = 0, usart1_ch = 0, usart2_ch = 0, usart3_ch = 0;
 volatile unsigned char usart0_str[256] = {0}, usart1_str[256] = {0}, usart2_str[256] = {0}, usart3_str[256] = {0};
 volatile unsigned int usart0_str_received = 0, usart1_str_received = 0, usart2_str_received = 0, usart3_str_received = 0;
 volatile unsigned int usart0_str_index = 0, usart1_str_index = 0, usart2_str_index = 0, usart3_str_index = 0;
 
 /**
- * @brief ³õÊ¼»¯USART
- * @param USARTx USART½á¹¹ÌåÖ¸Õë
- * @param USART_InitStruct USART³õÊ¼»¯½á¹¹ÌåÖ¸Õë
+ * @brief åˆå§‹åŒ–USART
+ * @param USARTx USARTç»“æ„ä½“æŒ‡é’ˆ
+ * @param USART_InitStruct USARTåˆå§‹åŒ–ç»“æ„ä½“æŒ‡é’ˆ
  */
 void USART_Init(USART_Typedef *USARTx, USART_InitTypedef *USART_InitStruct)
 {
@@ -24,9 +24,9 @@ void USART_Init(USART_Typedef *USARTx, USART_InitTypedef *USART_InitStruct)
 }
 
 /**
- * @brief ·¢ËÍµ¥¸ö×Ö·û
- * @param USARTx USART½á¹¹ÌåÖ¸Õë
- * @param ch Òª·¢ËÍµÄ×Ö·û
+ * @brief å‘é€å•ä¸ªå­—ç¬¦
+ * @param USARTx USARTç»“æ„ä½“æŒ‡é’ˆ
+ * @param ch è¦å‘é€çš„å­—ç¬¦
  */
 void USART_SendChar(USART_Typedef *USARTx, char ch)
 {
@@ -35,9 +35,9 @@ void USART_SendChar(USART_Typedef *USARTx, char ch)
 }
 
 /**
- * @brief ·¢ËÍ×Ö·û´®
- * @param USARTx USART½á¹¹ÌåÖ¸Õë
- * @param str Òª·¢ËÍµÄ×Ö·û´®
+ * @brief å‘é€å­—ç¬¦ä¸²
+ * @param USARTx USARTç»“æ„ä½“æŒ‡é’ˆ
+ * @param str è¦å‘é€çš„å­—ç¬¦ä¸²
  */
 void USART_SendString(USART_Typedef *USARTx, char *str)
 {
@@ -48,10 +48,10 @@ void USART_SendString(USART_Typedef *USARTx, char *str)
 }
 
 /**
- * @brief ¸ñÊ½»¯Êä³öµ½USART
- * @param USARTx USART½á¹¹ÌåÖ¸Õë
- * @param Format ¸ñÊ½»¯×Ö·û´®
- * @param ... ¿É±ä²ÎÊıÁĞ±í
+ * @brief æ ¼å¼åŒ–è¾“å‡ºåˆ°USART
+ * @param USARTx USARTç»“æ„ä½“æŒ‡é’ˆ
+ * @param Format æ ¼å¼åŒ–å­—ç¬¦ä¸²
+ * @param ... å¯å˜å‚æ•°åˆ—è¡¨
  */
 void USART_Printf(USART_Typedef *USARTx, const char *Format, ...)
 {
@@ -66,9 +66,9 @@ void USART_Printf(USART_Typedef *USARTx, const char *Format, ...)
 }
 
 /**
- * @brief ½ÓÊÕµ¥¸ö×Ö½Ú
- * @param USART USART½á¹¹ÌåÖ¸Õë
- * @return ½ÓÊÕµ½µÄ×Ö·û
+ * @brief æ¥æ”¶å•ä¸ªå­—èŠ‚
+ * @param USART USARTç»“æ„ä½“æŒ‡é’ˆ
+ * @return æ¥æ”¶åˆ°çš„å­—ç¬¦
  */
 char USART_ReceieveByte(USART_Typedef *USART)
 {
@@ -80,9 +80,9 @@ char USART_ReceieveByte(USART_Typedef *USART)
 }
 
 /**
- * @brief ½ÓÊÕ×Ö·û´®
- * @param USART USART½á¹¹ÌåÖ¸Õë
- * @param pstr ´æ´¢½ÓÊÕ×Ö·û´®µÄÊı×é
+ * @brief æ¥æ”¶å­—ç¬¦ä¸²
+ * @param USART USARTç»“æ„ä½“æŒ‡é’ˆ
+ * @param pstr å­˜å‚¨æ¥æ”¶å­—ç¬¦ä¸²çš„æ•°ç»„
  */
 void USART_ReceieveString(USART_Typedef *USART, char pstr[256])
 {
@@ -119,19 +119,19 @@ void USART_ReceieveString(USART_Typedef *USART, char pstr[256])
     *usart_str_received = 0;
 }
 
-// USART0-3 ÖĞ¶Ï´¦Àíº¯Êı
+// USART0-3 ä¸­æ–­å¤„ç†å‡½æ•°
 void UART0_IRQHandler(void) { UART_IRQHandler(UART0, usart0_ch, usart0_str, &usart0_str_index, &usart0_str_received); }
 void UART1_IRQHandler(void) { UART_IRQHandler(UART1, usart1_ch, usart1_str, &usart1_str_index, &usart1_str_received); }
 void UART2_IRQHandler(void) { UART_IRQHandler(UART2, usart2_ch, usart2_str, &usart2_str_index, &usart2_str_received); }
 void UART3_IRQHandler(void) { UART_IRQHandler(UART3, usart3_ch, usart3_str, &usart3_str_index, &usart3_str_received); }
 
 /**
- * @brief Í¨ÓÃUARTÖĞ¶Ï´¦Àíº¯Êı
- * @param UART UARTÊµÀı
- * @param usart_ch ½ÓÊÕ×Ö·û±äÁ¿
- * @param usart_str ½ÓÊÕ×Ö·û´®Êı×é
- * @param usart_str_index ½ÓÊÕ×Ö·û´®Ë÷ÒıÖ¸Õë
- * @param usart_str_received ½ÓÊÕÍê³É±êÖ¾Ö¸Õë
+ * @brief é€šç”¨UARTä¸­æ–­å¤„ç†å‡½æ•°
+ * @param UART UARTå®ä¾‹
+ * @param usart_ch æ¥æ”¶å­—ç¬¦å˜é‡
+ * @param usart_str æ¥æ”¶å­—ç¬¦ä¸²æ•°ç»„
+ * @param usart_str_index æ¥æ”¶å­—ç¬¦ä¸²ç´¢å¼•æŒ‡é’ˆ
+ * @param usart_str_received æ¥æ”¶å®Œæˆæ ‡å¿—æŒ‡é’ˆ
  */
 void UART_IRQHandler(UART_Regs *UART, volatile unsigned char usart_ch, volatile unsigned char usart_str[256],
                      volatile unsigned int *usart_str_index, volatile unsigned int *usart_str_received)

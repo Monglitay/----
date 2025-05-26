@@ -2,33 +2,33 @@
 #define __USART_H_  
 #include "ti_msp_dl_config.h"
 
-// ¶¨ÒåUSART³õÊ¼»¯½á¹¹Ìå
+// å®šä¹‰USARTåˆå§‹åŒ–ç»“æ„ä½“
 typedef struct
 {
-    UART_Regs * usart_inst;  // Ö¸ÏòUSARTÊµÀıµÄÖ¸Õë
-    int usart_inst_int_irqn; // USARTÊµÀıµÄÖĞ¶ÏºÅ
+    UART_Regs * usart_inst;  // æŒ‡å‘USARTå®ä¾‹çš„æŒ‡é’ˆ
+    int usart_inst_int_irqn; // USARTå®ä¾‹çš„ä¸­æ–­å·
 }USART_InitTypedef;
 
-// ¶¨ÒåUSARTÀàĞÍ½á¹¹Ìå
+// å®šä¹‰USARTç±»å‹ç»“æ„ä½“
 typedef struct
 {
-    UART_Regs * usart_inst;  // Ö¸ÏòUSARTÊµÀıµÄÖ¸Õë
-    int usart_inst_int_irqn; // USARTÊµÀıµÄÖĞ¶ÏºÅ
+    UART_Regs * usart_inst;  // æŒ‡å‘USARTå®ä¾‹çš„æŒ‡é’ˆ
+    int usart_inst_int_irqn; // USARTå®ä¾‹çš„ä¸­æ–­å·
 }USART_Typedef;
 
-// ³õÊ¼»¯USART
+// åˆå§‹åŒ–USART
 void USART_Init(USART_Typedef *USARTx,USART_InitTypedef *USART_InitStruct);
-// ´ÓUSART½ÓÊÕÒ»¸ö×Ö½Ú
+// ä»USARTæ¥æ”¶ä¸€ä¸ªå­—èŠ‚
 char USART_ReceieveByte(USART_Typedef *USARTx);
-// ´ÓUSART½ÓÊÕ×Ö·û´®
+// ä»USARTæ¥æ”¶å­—ç¬¦ä¸²
 void USART_ReceieveString(USART_Typedef *USART, char *pstr);
-// Í¨¹ıUSART·¢ËÍ×Ö·û´®
+// é€šè¿‡USARTå‘é€å­—ç¬¦ä¸²
 void USART_SendString(USART_Typedef *USARTx,char *str);
-// Í¨¹ıUSART·¢ËÍÒ»¸ö×Ö·û
+// é€šè¿‡USARTå‘é€ä¸€ä¸ªå­—ç¬¦
 void USART_SendChar(USART_Typedef *USARTx,char ch);
-// ÉùÃ÷Ò»¸öº¯Êı£¬ÓÃÓÚÍ¨¹ıUSART·¢ËÍÊı¾İ
+// å£°æ˜ä¸€ä¸ªå‡½æ•°ï¼Œç”¨äºé€šè¿‡USARTå‘é€æ•°æ®
 void USART_Printf(USART_Typedef *USARTx,const char *Format, ...);
-// ÉùÃ÷Ò»¸öº¯Êı£¬ÓÃÓÚ´¦ÀíUARTÖĞ¶Ï
+// å£°æ˜ä¸€ä¸ªå‡½æ•°ï¼Œç”¨äºå¤„ç†UARTä¸­æ–­
 void UART_IRQHandler(UART_Regs *UART, volatile unsigned char usart_ch, volatile unsigned char usart_str[256],
                      volatile unsigned int *usart_str_index, volatile unsigned int *usart_str_received);
 #endif

@@ -2,15 +2,15 @@
 #define __BUZZER_H_
 
 #include "ti_msp_dl_config.h"
-// ³õÊ¼»¯·äÃùÆ÷
+// åˆå§‹åŒ–èœ‚é¸£å™¨
 void Buzzer_Init();
-// ´ò¿ª·äÃùÆ÷
+// æ‰“å¼€èœ‚é¸£å™¨
 void Buzzer_On();
-// ¹Ø±Õ·äÃùÆ÷
+// å…³é—­èœ‚é¸£å™¨
 void Buzzer_Off();
-// ´¦Àí·äÃùÆ÷
+// å¤„ç†èœ‚é¸£å™¨
 void Buzzer_Proc();
-// ·äÃùÆ÷±êÖ¾Î»
+// èœ‚é¸£å™¨æ ‡å¿—ä½
 int buzzer_flag;
 
 #endif

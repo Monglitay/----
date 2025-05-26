@@ -2,29 +2,29 @@
 #define __PID_H_
 #include "ti_msp_dl_config.h"  
 #include "pid.h"
-// ¶¨ÒåPID½á¹¹Ìå
+// å®šä¹‰PIDç»“æ„ä½“
 typedef struct
 {
-    float kp; // ±ÈÀıÏµÊı
-    float ki; // »ı·ÖÏµÊı
-    float kd; // Î¢·ÖÏµÊı
-    float sp; // Éè¶¨Öµ
-    float err; // Îó²î
-    float co; // ¿ØÖÆÁ¿
-    float last_err; // ÉÏÒ»´ÎÎó²î
-    float last2_err; // ÉÏÉÏÒ»´ÎÎó²î
+    float kp; // æ¯”ä¾‹ç³»æ•°
+    float ki; // ç§¯åˆ†ç³»æ•°
+    float kd; // å¾®åˆ†ç³»æ•°
+    float sp; // è®¾å®šå€¼
+    float err; // è¯¯å·®
+    float co; // æ§åˆ¶é‡
+    float last_err; // ä¸Šä¸€æ¬¡è¯¯å·®
+    float last2_err; // ä¸Šä¸Šä¸€æ¬¡è¯¯å·®
 
 }PID_Tpyedef;
-// ³õÊ¼»¯PID
+// åˆå§‹åŒ–PID
 void PID_Init(PID_Tpyedef *PIDx,float kp,float ki,float kd);
-// ÏŞÖÆ¿ØÖÆÁ¿
+// é™åˆ¶æ§åˆ¶é‡
 void PID_Limmit(float *co,float Upper,float Lower);
 
-// ¸Ä±äÉè¶¨Öµ
+// æ”¹å˜è®¾å®šå€¼
 void PID_ChangeSP(PID_Tpyedef *PIDx,float sp);
-// ¼ÆËã¿ØÖÆÁ¿
+// è®¡ç®—æ§åˆ¶é‡
 float PID_Compute(PID_Tpyedef *PIDx,float fb);
-// ÖØÖÃPID
+// é‡ç½®PID
 void PID_Reset(PID_Tpyedef *PIDx);
 
 #endif

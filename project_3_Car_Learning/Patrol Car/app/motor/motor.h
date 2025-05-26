@@ -2,7 +2,7 @@
 #define __MOTOR_H_
 #include "ti_msp_dl_config.h"
 #include "pid.h"
-// ¶¨ÒåPID½á¹¹Ìå±äÁ¿
+// å®šä¹‰PIDç»“æ„ä½“å˜é‡
 PID_Tpyedef pid_l_high_speed;
 PID_Tpyedef pid_r_high_speed;
 PID_Tpyedef pid_l_low_speed;
@@ -10,20 +10,20 @@ PID_Tpyedef pid_r_low_speed;
 PID_Tpyedef pid_direction;
 PID_Tpyedef pid_tracking;
 
-// ¶¨Òåµç»úÕ¼¿Õ±È±äÁ¿
+// å®šä¹‰ç”µæœºå ç©ºæ¯”å˜é‡
 float duty_l;
 float duty_r;
 float duty_diff;
-// ¶¨Òå¸ú×Ù±êÖ¾±äÁ¿
+// å®šä¹‰è·Ÿè¸ªæ ‡å¿—å˜é‡
 int tracking_flag;
-// ³õÊ¼»¯µç»úº¯Êı
+// åˆå§‹åŒ–ç”µæœºå‡½æ•°
 void Motor_Init();
-// ´¦Àíµç»úº¯Êı
+// å¤„ç†ç”µæœºå‡½æ•°
 void Motor_Proc();
-// ÉèÖÃÓÒµç»úËÙ¶Èº¯Êı
+// è®¾ç½®å³ç”µæœºé€Ÿåº¦å‡½æ•°
 void Motor_SetSpeed_R(float speed);
-// ÉèÖÃ×óµç»úËÙ¶Èº¯Êı
+// è®¾ç½®å·¦ç”µæœºé€Ÿåº¦å‡½æ•°
 void Motor_SetSpeed_L(float speed);
-// ÉèÖÃµç»ú·½Ïòº¯Êı
+// è®¾ç½®ç”µæœºæ–¹å‘å‡½æ•°
 void Motor_direction(float direction);
 #endif

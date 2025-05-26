@@ -1,39 +1,39 @@
 #include "key.h"
 #include "delay.h"
 
-// °´¼üÏà¹ØµÄÊ±¼ä³£Á¿¶¨Òå
-#define KEY_SETTLING_TIME             10   // °´Å¥Ïû¶¶ÑÓ³Ù£¨µ¥Î»£ººÁÃë£©
-#define KEY_CLICK_INTERVAL            200  // °´Å¥¶à»÷Ê±Ã¿´Îµã»÷µÄ×î´óÊ±¼ä¼ä¸ô£¨µ¥Î»£ººÁÃë£©
-#define KEY_LONG_PRESS_THRESHOLD      1000 // °´Å¥³¤°´×îÐ¡Ê±¼ä£¨µ¥Î»£ººÁÃë£©
-#define KEY_LONG_PRESS_TICK_INTERNVAL 100  // ³¤°´ºó³ÖÐø´¥·¢µÄÊ±¼ä¼ä¸ô£¨µ¥Î»£ººÁÃë£©
+// æŒ‰é”®ç›¸å…³çš„æ—¶é—´å¸¸é‡å®šä¹‰
+#define KEY_SETTLING_TIME             10   // æŒ‰é’®æ¶ˆæŠ–å»¶è¿Ÿï¼ˆå•ä½ï¼šæ¯«ç§’ï¼‰
+#define KEY_CLICK_INTERVAL            200  // æŒ‰é’®å¤šå‡»æ—¶æ¯æ¬¡ç‚¹å‡»çš„æœ€å¤§æ—¶é—´é—´éš”ï¼ˆå•ä½ï¼šæ¯«ç§’ï¼‰
+#define KEY_LONG_PRESS_THRESHOLD      1000 // æŒ‰é’®é•¿æŒ‰æœ€å°æ—¶é—´ï¼ˆå•ä½ï¼šæ¯«ç§’ï¼‰
+#define KEY_LONG_PRESS_TICK_INTERNVAL 100  // é•¿æŒ‰åŽæŒç»­è§¦å‘çš„æ—¶é—´é—´éš”ï¼ˆå•ä½ï¼šæ¯«ç§’ï¼‰
 
-// °´Å¥ÊÂ¼þ»Øµ÷º¯ÊýÔ­ÐÍ
+// æŒ‰é’®äº‹ä»¶å›žè°ƒå‡½æ•°åŽŸåž‹
 static void OnKeyPressed(Key_TypeDef *Key);
 static void OnKeyReleased(Key_TypeDef *Key);
 static void OnKeyEveryPolled(Key_TypeDef *Key, uint8_t State, uint32_t currentTime);
 
 /**
- * @brief ³õÊ¼»¯°´Å¥½á¹¹Ìå
- * @param Key °´Å¥½á¹¹ÌåÖ¸Õë
- * @param Key_Initstruct °´Å¥³õÊ¼»¯½á¹¹ÌåÖ¸Õë
+ * @brief åˆå§‹åŒ–æŒ‰é’®ç»“æž„ä½“
+ * @param Key æŒ‰é’®ç»“æž„ä½“æŒ‡é’ˆ
+ * @param Key_Initstruct æŒ‰é’®åˆå§‹åŒ–ç»“æž„ä½“æŒ‡é’ˆ
  */
 void Key_Init(Key_TypeDef *Key, Key_InitTypedef *Key_Initstruct)
 {
-    // ÉèÖÃ°´Å¥Ó²¼þ²ÎÊý
+    // è®¾ç½®æŒ‰é’®ç¡¬ä»¶å‚æ•°
     Key->key_port = Key_Initstruct->key_port;
     Key->key_pin = Key_Initstruct->key_pin;
     
-    // ÉèÖÃ»Øµ÷º¯Êý
+    // è®¾ç½®å›žè°ƒå‡½æ•°
     Key->key_pressed_cb = Key_Initstruct->key_pressed_cb;
     Key->key_released_cb = Key_Initstruct->key_released_cb;
     Key->key_long_pressed_cb = Key_Initstruct->key_long_pressed_cb;
     
-    // ÉèÖÃÄ¬ÈÏÊ±¼ä²ÎÊý
+    // è®¾ç½®é»˜è®¤æ—¶é—´å‚æ•°
     Key->LongPressThreshold = Key_Initstruct->LongPressThreshold ?: KEY_LONG_PRESS_THRESHOLD;
     Key->LongPressTickInterval = Key_Initstruct->LongPressTickInterval ?: KEY_LONG_PRESS_TICK_INTERNVAL;
     Key->ClickInterval = Key_Initstruct->ClickInterval ?: KEY_CLICK_INTERVAL;
 
-    // ³õÊ¼»¯°´Å¥×´Ì¬
+    // åˆå§‹åŒ–æŒ‰é’®çŠ¶æ€
     Key->LastState = 0;
     Key->ChangePending = 0;
     Key->PendingTime = 0;
@@ -44,8 +44,8 @@ void Key_Init(Key_TypeDef *Key, Key_InitTypedef *Key_Initstruct)
 }
 
 /**
- * @brief ´¦Àí°´Å¥×´Ì¬
- * @param Key °´Å¥½á¹¹ÌåÖ¸Õë
+ * @brief å¤„ç†æŒ‰é’®çŠ¶æ€
+ * @param Key æŒ‰é’®ç»“æž„ä½“æŒ‡é’ˆ
  */
 void Key_Proc(Key_TypeDef *Key)
 {
@@ -54,7 +54,7 @@ void Key_Proc(Key_TypeDef *Key)
 
     if (Key->ChangePending)
     {
-        // Ïû¶¶´¦Àí
+        // æ¶ˆæŠ–å¤„ç†
         if (currentTime - Key->PendingTime >= KEY_SETTLING_TIME)
         {
             currentState = DL_GPIO_readPins(Key->key_port, Key->key_pin) > 0 ? 1 : 0;
@@ -82,9 +82,9 @@ void Key_Proc(Key_TypeDef *Key)
 }
 
 /**
- * @brief »ñÈ¡°´Å¥µ±Ç°×´Ì¬
- * @param Key °´Å¥½á¹¹ÌåÖ¸Õë
- * @return °´Å¥×´Ì¬£¨0£ºËÉ¿ª£¬1£º°´ÏÂ£©
+ * @brief èŽ·å–æŒ‰é’®å½“å‰çŠ¶æ€
+ * @param Key æŒ‰é’®ç»“æž„ä½“æŒ‡é’ˆ
+ * @return æŒ‰é’®çŠ¶æ€ï¼ˆ0ï¼šæ¾å¼€ï¼Œ1ï¼šæŒ‰ä¸‹ï¼‰
  */
 uint8_t Key_GetState(Key_TypeDef *Key)
 {
@@ -92,8 +92,8 @@ uint8_t Key_GetState(Key_TypeDef *Key)
 }
 
 /**
- * @brief °´Å¥°´ÏÂÊÂ¼þ´¦Àí
- * @param Key °´Å¥½á¹¹ÌåÖ¸Õë
+ * @brief æŒ‰é’®æŒ‰ä¸‹äº‹ä»¶å¤„ç†
+ * @param Key æŒ‰é’®ç»“æž„ä½“æŒ‡é’ˆ
  */
 static void OnKeyPressed(Key_TypeDef *Key)
 {
@@ -105,8 +105,8 @@ static void OnKeyPressed(Key_TypeDef *Key)
 }
 
 /**
- * @brief °´Å¥ËÉ¿ªÊÂ¼þ´¦Àí
- * @param Key °´Å¥½á¹¹ÌåÖ¸Õë
+ * @brief æŒ‰é’®æ¾å¼€äº‹ä»¶å¤„ç†
+ * @param Key æŒ‰é’®ç»“æž„ä½“æŒ‡é’ˆ
  */
 static void OnKeyReleased(Key_TypeDef *Key)
 {
@@ -129,14 +129,14 @@ static void OnKeyReleased(Key_TypeDef *Key)
 }
 
 /**
- * @brief °´Å¥ÂÖÑ¯´¦Àí
- * @param Key °´Å¥½á¹¹ÌåÖ¸Õë
- * @param State µ±Ç°°´Å¥×´Ì¬
- * @param CurrentTime µ±Ç°Ê±¼ä
+ * @brief æŒ‰é’®è½®è¯¢å¤„ç†
+ * @param Key æŒ‰é’®ç»“æž„ä½“æŒ‡é’ˆ
+ * @param State å½“å‰æŒ‰é’®çŠ¶æ€
+ * @param CurrentTime å½“å‰æ—¶é—´
  */
 static void OnKeyEveryPolled(Key_TypeDef *Key, uint8_t State, uint32_t CurrentTime)
 {
-    // ´¦Àí³¤°´
+    // å¤„ç†é•¿æŒ‰
     if (Key->LastState == 1)
     {
         if (Key->LongPressTicks == 0)
@@ -166,7 +166,7 @@ static void OnKeyEveryPolled(Key_TypeDef *Key, uint8_t State, uint32_t CurrentTi
         }
     }
     
-    // ´¦Àí¶à»÷
+    // å¤„ç†å¤šå‡»
     if (Key->ClickCnt > 0 && Key->LastState == 0 && 
         (get_ticks() - Key->LastReleasedTime) > Key->ClickInterval)
     {

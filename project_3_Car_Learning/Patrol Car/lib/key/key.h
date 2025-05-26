@@ -3,59 +3,59 @@
 
 #include "ti_msp_dl_config.h"
 
-// ¶¨Òå°´¼ü³õÊ¼»¯½á¹¹Ìå
+// å®šä¹‰æŒ‰é”®åˆå§‹åŒ–ç»“æ„ä½“
 typedef struct 
 {
-    GPIO_Regs *key_port; // °´¼ü¶Ë¿Ú
-    unsigned int key_pin; // °´¼üÒı½Å
-    void (*key_pressed_cb)(void); // °´¼ü°´ÏÂ»Øµ÷º¯Êı
-    void (*key_released_cb)(void); // °´¼üËÉ¿ª»Øµ÷º¯Êı
-    void (*key_clicked_cb)(uint8_t clicks); // °´¼üÁ¬»÷»Øµ÷º¯Êı
-    void (*key_long_pressed_cb)(uint8_t ticks); // °´¼ü³¤°´»Øµ÷º¯Êı
+    GPIO_Regs *key_port; // æŒ‰é”®ç«¯å£
+    unsigned int key_pin; // æŒ‰é”®å¼•è„š
+    void (*key_pressed_cb)(void); // æŒ‰é”®æŒ‰ä¸‹å›è°ƒå‡½æ•°
+    void (*key_released_cb)(void); // æŒ‰é”®æ¾å¼€å›è°ƒå‡½æ•°
+    void (*key_clicked_cb)(uint8_t clicks); // æŒ‰é”®è¿å‡»å›è°ƒå‡½æ•°
+    void (*key_long_pressed_cb)(uint8_t ticks); // æŒ‰é”®é•¿æŒ‰å›è°ƒå‡½æ•°
     
-    uint32_t LongPressThreshold;     // ³¤°´ãĞÖµ
-    uint32_t LongPressTickInterval;  // ³¤°´´¥·¢¼ä¸ô
-    uint32_t ClickInterval;          // Á¬»÷¼ä¸ô
+    uint32_t LongPressThreshold;     // é•¿æŒ‰é˜ˆå€¼
+    uint32_t LongPressTickInterval;  // é•¿æŒ‰è§¦å‘é—´éš”
+    uint32_t ClickInterval;          // è¿å‡»é—´éš”
 }Key_InitTypedef;
 
-// Ô­ÓĞµÄ Key_TypeDef ½á¹¹Ìå±£³Ö²»±ä
+// åŸæœ‰çš„ Key_TypeDef ç»“æ„ä½“ä¿æŒä¸å˜
 typedef struct 
 {
-    /* ³õÊ¼»¯²ÎÊı */
+    /* åˆå§‹åŒ–å‚æ•° */
     GPIO_Regs *key_port;
     unsigned int key_pin;
     uint32_t  key_iidx;
     int key_irqn;
-    uint32_t LongPressTime; // °´Å¥³¤°´Ê±¼äãĞÖµ£¬µ¥Î»ºÁÃë
-    uint32_t LongPressTickInterval; // ³¤°´ºó³ÖĞø´¥·¢µÄ¼ä¸ô
-    uint32_t ClickInterval; // Á¬»÷Ê±¼ä¼ä¸ô£¬µ¥Î»ºÁÃë
+    uint32_t LongPressTime; // æŒ‰é’®é•¿æŒ‰æ—¶é—´é˜ˆå€¼ï¼Œå•ä½æ¯«ç§’
+    uint32_t LongPressTickInterval; // é•¿æŒ‰åæŒç»­è§¦å‘çš„é—´éš”
+    uint32_t ClickInterval; // è¿å‡»æ—¶é—´é—´éš”ï¼Œå•ä½æ¯«ç§’
     void (*key_pressed_cb)(void);
     void (*key_released_cb)(void);
     void (*key_clicked_cb)(uint8_t clicks);
     void (*key_long_pressed_cb)(uint8_t ticks);
     
-    uint8_t  LastState;     // °´Å¥ÉÏ´ÎµÄ×´Ì¬£¬0 - ËÉ¿ª£¬1 - °´ÏÂ
-    uint8_t  ChangePending; // °´Å¥µÄ×´Ì¬ÊÇ·ñÕıÔÚ·¢Éú¸Ä±ä
-    uint32_t PendingTime;   // °´Å¥×´Ì¬¿ªÊ¼±ä»¯µÄÊ±¼ä
+    uint8_t  LastState;     // æŒ‰é’®ä¸Šæ¬¡çš„çŠ¶æ€ï¼Œ0 - æ¾å¼€ï¼Œ1 - æŒ‰ä¸‹
+    uint8_t  ChangePending; // æŒ‰é’®çš„çŠ¶æ€æ˜¯å¦æ­£åœ¨å‘ç”Ÿæ”¹å˜
+    uint32_t PendingTime;   // æŒ‰é’®çŠ¶æ€å¼€å§‹å˜åŒ–çš„æ—¶é—´
     uint32_t LongPressThreshold;
 
-    uint32_t LastPressedTime;  // °´Å¥ÉÏ´Î°´ÏÂµÄÊ±¼ä
-    uint32_t LastReleasedTime; // °´Å¥ÉÏ´ÎËÉ¿ªµÄÊ±¼ä
+    uint32_t LastPressedTime;  // æŒ‰é’®ä¸Šæ¬¡æŒ‰ä¸‹çš„æ—¶é—´
+    uint32_t LastReleasedTime; // æŒ‰é’®ä¸Šæ¬¡æ¾å¼€çš„æ—¶é—´
     
-    // ³¤°´´ÎÊı
+    // é•¿æŒ‰æ¬¡æ•°
     uint8_t LongPressTicks;
-    // ÉÏ´Î³¤°´Ê±¼ä
+    // ä¸Šæ¬¡é•¿æŒ‰æ—¶é—´
     uint32_t LastLongPressTickTime; 
     
-    // µã»÷´ÎÊı
+    // ç‚¹å‡»æ¬¡æ•°
     uint8_t ClickCnt;
     
 }Key_TypeDef;
 
-// ³õÊ¼»¯°´¼ü
+// åˆå§‹åŒ–æŒ‰é”®
 void Key_Init(Key_TypeDef *Key,Key_InitTypedef *Key_Initstruct);
-// ´¦Àí°´¼ü
+// å¤„ç†æŒ‰é”®
 void Key_Proc(Key_TypeDef *Key);
-// »ñÈ¡°´¼ü×´Ì¬
+// è·å–æŒ‰é”®çŠ¶æ€
 uint8_t Key_GetState(Key_TypeDef *Key);
 #endif 

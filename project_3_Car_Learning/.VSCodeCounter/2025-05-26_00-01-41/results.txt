@@ -1,0 +1,122 @@
+Date : 2025-05-26 00:01:41
+Directory : d:\NUEDC\project_3_Car_Learning
+Total : 60 files,  13144 codes, 286 comments, 680 blanks, all 14110 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| XML        |          2 |      9,936 |          0 |          2 |      9,938 |
+| C          |         14 |      1,842 |         97 |        294 |      2,233 |
+| Makefile   |         29 |        628 |        107 |        234 |        969 |
+| C++        |         13 |        477 |         82 |        129 |        688 |
+| JavaScript |          1 |        247 |          0 |         20 |        267 |
+| Markdown   |          1 |         14 |          0 |          1 |         15 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                          | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                             |         60 |     13,144 |        286 |        680 |     14,110 |
+| . (Files)                                                                     |          1 |         14 |          0 |          1 |         15 |
+| Patrol Car                                                                    |         59 |     13,130 |        286 |        679 |     14,095 |
+| Patrol Car (Files)                                                            |          2 |        433 |         19 |         32 |        484 |
+| Patrol Car\Debug                                                              |         34 |     11,229 |        113 |        417 |     11,759 |
+| Patrol Car\Debug (Files)                                                      |         10 |     10,989 |         17 |        237 |     11,243 |
+| Patrol Car\Debug\app                                                          |         14 |        140 |         56 |        105 |        301 |
+| Patrol Car\Debug\app\buzzer                                                   |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\Debug\app\encoder                                                  |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\Debug\app\hc_06                                                    |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\Debug\app\motor                                                    |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\Debug\app\mpu6050                                                  |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\Debug\app\tb6612                                                   |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\Debug\app\tracking                                                 |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\Debug\delay                                                        |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\Debug\lib                                                          |          8 |         80 |         32 |         60 |        172 |
+| Patrol Car\Debug\lib\delay                                                    |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\Debug\lib\key                                                      |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\Debug\lib\pid                                                      |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\Debug\lib\usart                                                    |          2 |         20 |          8 |         15 |         43 |
+| Patrol Car\app                                                                |         14 |        909 |        110 |        123 |      1,142 |
+| Patrol Car\app\buzzer                                                         |          2 |         59 |         12 |          9 |         80 |
+| Patrol Car\app\encoder                                                        |          2 |        101 |         14 |         14 |        129 |
+| Patrol Car\app\hc_06                                                          |          2 |         15 |          3 |          5 |         23 |
+| Patrol Car\app\motor                                                          |          2 |        155 |         12 |         15 |        182 |
+| Patrol Car\app\mpu6050                                                        |          2 |        423 |         49 |         60 |        532 |
+| Patrol Car\app\tb6612                                                         |          2 |         85 |         18 |         11 |        114 |
+| Patrol Car\app\tracking                                                       |          2 |         71 |          2 |          9 |         82 |
+| Patrol Car\lib                                                                |          9 |        559 |         44 |        107 |        710 |
+| Patrol Car\lib\delay                                                          |          2 |         69 |          7 |         46 |        122 |
+| Patrol Car\lib\key                                                            |          2 |        198 |         17 |         26 |        241 |
+| Patrol Car\lib\pid                                                            |          2 |         93 |          9 |         14 |        116 |
+| Patrol Car\lib\task                                                           |          1 |         35 |          0 |          4 |         39 |
+| Patrol Car\lib\usart                                                          |          2 |        164 |         11 |         17 |        192 |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                      | language   | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\Patrol Car_linkInfo.xml      | XML        |      7,054 |          0 |          1 |      7,055 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\buzzer\subdir_rules.mk   | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\buzzer\subdir_vars.mk    | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\encoder\subdir_rules.mk  | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\encoder\subdir_vars.mk   | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\hc_06\subdir_rules.mk    | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\hc_06\subdir_vars.mk     | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\motor\subdir_rules.mk    | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\motor\subdir_vars.mk     | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\mpu6050\subdir_rules.mk  | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\mpu6050\subdir_vars.mk   | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\tb6612\subdir_rules.mk   | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\tb6612\subdir_vars.mk    | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\tracking\subdir_rules.mk | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\app\tracking\subdir_vars.mk  | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\delay\subdir_rules.mk        | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\delay\subdir_vars.mk         | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\device_linker.cmd            | C          |         56 |          0 |         13 |         69 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\lib\delay\subdir_rules.mk    | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\lib\delay\subdir_vars.mk     | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\lib\key\subdir_rules.mk      | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\lib\key\subdir_vars.mk       | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\lib\pid\subdir_rules.mk      | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\lib\pid\subdir_vars.mk       | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\lib\usart\subdir_rules.mk    | Makefile   |          7 |          4 |          5 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\lib\usart\subdir_vars.mk     | Makefile   |         13 |          4 |         10 |         27 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\makefile                     | Makefile   |        162 |          8 |         19 |        189 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\objects.mk                   | Makefile   |          2 |          3 |          4 |          9 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\sources.mk                   | Makefile   |        136 |          0 |          4 |        140 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\subdir_rules.mk              | Makefile   |         35 |          0 |          9 |         44 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\subdir_vars.mk               | Makefile   |         53 |          0 |         18 |         71 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\temple_linkInfo.xml          | XML        |      2,882 |          0 |          1 |      2,883 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\ti_msp_dl_config.c           | C          |        393 |          4 |        123 |        520 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\Debug\ti_msp_dl_config.h           | C++        |        216 |          2 |         45 |        263 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\buzzer\buzzer.c                | C          |         50 |          7 |          7 |         64 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\buzzer\buzzer.h                | C++        |          9 |          5 |          2 |         16 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\encoder\encoder.c              | C          |         92 |          9 |         11 |        112 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\encoder\encoder.h              | C++        |          9 |          5 |          3 |         17 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\hc_06\hc_06.c                  | C          |          8 |          0 |          2 |         10 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\hc_06\hc_06.h                  | C++        |          7 |          3 |          3 |         13 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\motor\motor.c                  | C          |        135 |          4 |         14 |        153 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\motor\motor.h                  | C++        |         20 |          8 |          1 |         29 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\mpu6050\mpu6050.c              | C          |        355 |         25 |         45 |        425 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\mpu6050\mpu6050.h              | C++        |         68 |         24 |         15 |        107 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\tb6612\tb6612.c                | C          |         73 |         10 |          7 |         90 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\tb6612\tb6612.h                | C++        |         12 |          8 |          4 |         24 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\tracking\tracking.c            | C          |         64 |          2 |          8 |         74 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\app\tracking\tracking.h            | C++        |          7 |          0 |          1 |          8 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\lib\delay\delay.c                  | C          |         61 |          3 |         12 |         76 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\lib\delay\delay.h                  | C++        |          8 |          4 |         34 |         46 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\lib\key\key.c                      | C          |        155 |          9 |         15 |        179 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\lib\key\key.h                      | C++        |         43 |          8 |         11 |         62 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\lib\pid\pid.c                      | C          |         72 |          3 |         11 |         86 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\lib\pid\pid.h                      | C++        |         21 |          6 |          3 |         30 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\lib\task\task.h                    | C++        |         35 |          0 |          4 |         39 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\lib\usart\usart.c                  | C          |        142 |          2 |         14 |        158 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\lib\usart\usart.h                  | C++        |         22 |          9 |          3 |         34 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\main.c                             | C          |        186 |         19 |         12 |        217 |
+| d:\NUEDC\project_3_Car_Learning\Patrol Car\main.syscfg                        | JavaScript |        247 |          0 |         20 |        267 |
+| d:\NUEDC\project_3_Car_Learning\README.md                                     | Markdown   |         14 |          0 |          1 |         15 |
+| Total                                                                         |            |     13,144 |        286 |        680 |     14,110 |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

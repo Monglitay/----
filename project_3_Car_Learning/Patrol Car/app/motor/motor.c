@@ -5,23 +5,23 @@
 #include "tb6612.h"
 #include "tracking.h"
 
-// ºê¶¨Òå£ºÅĞ¶ÏËÙ¶ÈÊÇ·ñÔÚµÍËÙ·¶Î§ÄÚ£¨-10µ½10£©
+// å®å®šä¹‰ï¼šåˆ¤æ–­é€Ÿåº¦æ˜¯å¦åœ¨ä½é€ŸèŒƒå›´å†…ï¼ˆ-10åˆ°10ï¼‰
 #define IF_SPEED_LOW(speed) ((speed) >= -10 && (speed) <= 10)
-// ºê¶¨Òå£ºÅĞ¶ÏËÙ¶ÈÊÇ·ñ½Ó½üÁã£¨-1µ½1£©
+// å®å®šä¹‰ï¼šåˆ¤æ–­é€Ÿåº¦æ˜¯å¦æ¥è¿‘é›¶ï¼ˆ-1åˆ°1ï¼‰
 #define IF_SPEED_ZERO(speed) ((speed) >= -1 && (speed) <= 1)
 
-// ¾²Ì¬±äÁ¿£º×óÓÒµç»úµÄÄ¿±êËÙ¶ÈºÍÊµ¼ÊËÙ¶È
+// é™æ€å˜é‡ï¼šå·¦å³ç”µæœºçš„ç›®æ ‡é€Ÿåº¦å’Œå®é™…é€Ÿåº¦
 static float target_speed_l;
 static float target_speed_r;
 static int32_t omeg_l;
 static int32_t omeg_r;
 
 /**
- * @brief ³õÊ¼»¯µç»ú¿ØÖÆÏµÍ³
+ * @brief åˆå§‹åŒ–ç”µæœºæ§åˆ¶ç³»ç»Ÿ
  */
 void Motor_Init()
 {
-    // ³õÊ¼»¯¸÷PID¿ØÖÆÆ÷
+    // åˆå§‹åŒ–å„PIDæ§åˆ¶å™¨
     PID_Init(&pid_l_high_speed, 3.41, 0.01, 0.1);
     PID_Init(&pid_r_high_speed, 3.41, 0.01, 0.1);
     PID_Init(&pid_l_low_speed, 1.1, 0, 0.1);
@@ -29,11 +29,11 @@ void Motor_Init()
     PID_Init(&pid_direction, 0.34, 0, 0.02);
     PID_Init(&pid_tracking, -0.9, 0, 0);
     
-    Encoder_Init();    // ³õÊ¼»¯±àÂëÆ÷
-    MPU6050_Init();    // ³õÊ¼»¯MPU6050
-    Enable_TB6612();   // Ê¹ÄÜTB6612µç»úÇı¶¯
+    Encoder_Init();    // åˆå§‹åŒ–ç¼–ç å™¨
+    MPU6050_Init();    // åˆå§‹åŒ–MPU6050
+    Enable_TB6612();   // ä½¿èƒ½TB6612ç”µæœºé©±åŠ¨
     
-    tracking_flag = 0; // ³õÊ¼»¯¸ú×Ù±êÖ¾
+    tracking_flag = 0; // åˆå§‹åŒ–è·Ÿè¸ªæ ‡å¿—
     target_speed_l = 0;
     target_speed_r = 0;
     omeg_l = 0;
@@ -41,8 +41,8 @@ void Motor_Init()
 }
 
 /**
- * @brief ×óµç»ú¿ØÖÆº¯Êı
- * @param target_speed Ä¿±êËÙ¶È
+ * @brief å·¦ç”µæœºæ§åˆ¶å‡½æ•°
+ * @param target_speed ç›®æ ‡é€Ÿåº¦
  */
 void Motor_Control_L(float target_speed)
 {
@@ -72,8 +72,8 @@ void Motor_Control_L(float target_speed)
 }
 
 /**
- * @brief ÓÒµç»ú¿ØÖÆº¯Êı
- * @param target_speed Ä¿±êËÙ¶È
+ * @brief å³ç”µæœºæ§åˆ¶å‡½æ•°
+ * @param target_speed ç›®æ ‡é€Ÿåº¦
  */
 void Motor_Control_R(float target_speed)
 {
@@ -103,7 +103,7 @@ void Motor_Control_R(float target_speed)
 }
 
 /**
- * @brief µç»ú¿ØÖÆ´¦Àíº¯Êı£¬ÖÜÆÚĞÔµ÷ÓÃ
+ * @brief ç”µæœºæ§åˆ¶å¤„ç†å‡½æ•°ï¼Œå‘¨æœŸæ€§è°ƒç”¨
  */
 void Motor_Proc()
 {
@@ -125,8 +125,8 @@ void Motor_Proc()
 }
 
 /**
- * @brief ÉèÖÃÓÒµç»úÄ¿±êËÙ¶È
- * @param speed Ä¿±êËÙ¶È
+ * @brief è®¾ç½®å³ç”µæœºç›®æ ‡é€Ÿåº¦
+ * @param speed ç›®æ ‡é€Ÿåº¦
  */
 void Motor_SetSpeed_R(float speed)
 {
@@ -134,8 +134,8 @@ void Motor_SetSpeed_R(float speed)
 }
 
 /**
- * @brief ÉèÖÃ×óµç»úÄ¿±êËÙ¶È
- * @param speed Ä¿±êËÙ¶È
+ * @brief è®¾ç½®å·¦ç”µæœºç›®æ ‡é€Ÿåº¦
+ * @param speed ç›®æ ‡é€Ÿåº¦
  */
 void Motor_SetSpeed_L(float speed)
 {
@@ -143,8 +143,8 @@ void Motor_SetSpeed_L(float speed)
 }
 
 /**
- * @brief ÉèÖÃ·½Ïò¿ØÖÆPIDµÄÄ¿±êÖµ
- * @param direction Ä¿±ê·½Ïò
+ * @brief è®¾ç½®æ–¹å‘æ§åˆ¶PIDçš„ç›®æ ‡å€¼
+ * @param direction ç›®æ ‡æ–¹å‘
  */
 void Motor_direction(float direction)
 {

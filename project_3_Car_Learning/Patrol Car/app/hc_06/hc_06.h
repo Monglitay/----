@@ -1,13 +1,13 @@
 #ifndef __HC_06_
 #define __HC_06_
 
-// °üº¬Í·ÎÄ¼ş
+// åŒ…å«å¤´æ–‡ä»¶
 #include "ti_msp_dl_config.h"
 #include "usart.h"
 
-// ¶¨ÒåHC_06½á¹¹Ìå
+// å®šä¹‰HC_06ç»“æ„ä½“
 USART_Typedef HC_06;
-// ³õÊ¼»¯HC_06º¯Êı
+// åˆå§‹åŒ–HC_06å‡½æ•°
 void HC06_Init();
 
 #endif  
