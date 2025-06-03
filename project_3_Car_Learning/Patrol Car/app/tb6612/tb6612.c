@@ -31,7 +31,7 @@ void SetPWM_R(float duty)
     // 将占空比转换为定时器的比较值
     uint32_t ccr = duty / 100.0f * 1000;
     // 设置PWM值
-    DL_TimerG_setCaptureCompareValue(PWM_R_INST, ccr, GPIO_PWM_R_C0_IDX);
+    DL_TimerG_setCaptureCompareValue(PWM_R_INST, ccr, GPIO_PWM_R_C1_IDX);
 }
 
 /**
@@ -65,7 +65,7 @@ void SetPWM_L(float duty)
     // 将占空比转换为定时器的比较值
     uint32_t ccr = duty / 100.0f * 1000;
     // 设置PWM值
-    DL_TimerG_setCaptureCompareValue(PWM_L_INST, ccr, GPIO_PWM_L_C1_IDX);
+    DL_TimerG_setCaptureCompareValue(PWM_L_INST, ccr, GPIO_PWM_L_C0_IDX);
 }
 
 /**

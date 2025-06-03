@@ -126,8 +126,10 @@ GEN_OPTS__QUOTED :=
 SUBDIRS := \
 . \
 app/buzzer \
+app/control \
 app/encoder \
 app/hc_06 \
+app/jy62 \
 app/motor \
 app/mpu6050 \
 app/tb6612 \

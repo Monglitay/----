@@ -1,6 +1,9 @@
 # FIXED
 
 app/motor/motor.o: ../app/motor/motor.c ../app/motor/motor.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/pid/pid.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/task/task.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h \
  ti_msp_dl_config.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/msp/msp.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/DeviceFamily.h \
@@ -75,14 +78,15 @@ app/motor/motor.o: ../app/motor/motor.c ../app/motor/motor.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/dl_wwdt.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_interrupt.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_systick.h \
- D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/pid/pid.h \
- D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/task/task.h \
- D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h \
  D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/encoder/encoder.h \
- D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/mpu6050/mpu6050.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/jy62/jy62.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/usart/usart.h \
  D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tb6612/tb6612.h \
  D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tracking/tracking.h
 ../app/motor/motor.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/pid/pid.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/task/task.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h:
 ti_msp_dl_config.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/msp/msp.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/DeviceFamily.h:
@@ -157,10 +161,8 @@ C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/dl_vref.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/dl_wwdt.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_interrupt.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_systick.h:
-D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/pid/pid.h:
-D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/task/task.h:
-D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h:
 D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/encoder/encoder.h:
-D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/mpu6050/mpu6050.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/jy62/jy62.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/usart/usart.h:
 D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tb6612/tb6612.h:
 D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tracking/tracking.h:

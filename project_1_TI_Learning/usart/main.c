@@ -9,7 +9,7 @@ int main(void)
     USART_InitStruct.usart_inst_int_irqn = UART_0_INST_INT_IRQN;
     USART_Typedef My_USART0;
     USART_Init(&My_USART0,&USART_InitStruct);
-
+    USART_Printf(&My_USART0, "hello");
     while (1) 
     {
         char pstr[256]={0};

@@ -1,30 +1,40 @@
-#ifndef __PID_H_
-#define __PID_H_
-#include "ti_msp_dl_config.h"  
-#include "pid.h"
-// 定义PID结构体
-typedef struct
-{
-    float kp; // 比例系数
-    float ki; // 积分系数
-    float kd; // 微分系数
-    float sp; // 设定值
-    float err; // 误差
-    float co; // 控制量
-    float last_err; // 上一次误差
-    float last2_err; // 上上一次误差
+#ifndef __PID_H
+#define __PID_H
 
-}PID_Tpyedef;
-// 初始化PID
-void PID_Init(PID_Tpyedef *PIDx,float kp,float ki,float kd);
-// 限制控制量
-void PID_Limmit(float *co,float Upper,float Lower);
+#include "stdint.h"
 
-// 改变设定值
-void PID_ChangeSP(PID_Tpyedef *PIDx,float sp);
-// 计算控制量
-float PID_Compute(PID_Tpyedef *PIDx,float fb);
+#define INTEGRAL_LIMIT 100.0
+
+typedef struct {
+    float kp;           // 比例系数
+    float ki;           // 积分系数
+    float kd;           // 微分系数
+    float sp;           // 设定值
+    float err;          // 当前误差
+    float last_err;     // 上一次误差
+    float last2_err;    // 上上次误差
+    float co;           // 控制输出
+
+}  PID_Typedef;
+
+// PID初始化
+void PID_Init(PID_Typedef *PIDx, float kp, float ki, float kd);
+
+// PID计算
+float PID_Compute(PID_Typedef *PIDx, float fb);
+
+// 方向PID计算（角度特殊处理）
+float PID_Compute_Direction(PID_Typedef *pid, float feedback);
+
 // 重置PID
-void PID_Reset(PID_Tpyedef *PIDx);
+void PID_Reset(PID_Typedef *pid);
+
+// 修改设定值
+void PID_ChangeSP(PID_Typedef *PIDx, float sp);
+
+void PID_Limmit(float *co, float Upper, float Lower);
+
+
+float PID_Compute_dir(PID_Typedef *PIDx, float fb);
 
 #endif

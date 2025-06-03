@@ -1,19 +1,22 @@
 #include "tracking.h"
 
-// ¶¨Òåºê£º¶ÁÈ¡¸÷¸öÑ­¼£´«¸ĞÆ÷µÄ×´Ì¬
+// å®šä¹‰å®ï¼šè¯»å–å„ä¸ªå¾ªè¿¹ä¼ æ„Ÿå™¨çš„çŠ¶æ€
 #define P1 DL_GPIO_readPins(Tracking_PORT, Tracking_HW_1_PIN)
 #define P2 DL_GPIO_readPins(Tracking_PORT, Tracking_HW_2_PIN)
 #define P3 DL_GPIO_readPins(Tracking_PORT, Tracking_HW_3_PIN)
 #define P4 DL_GPIO_readPins(Tracking_PORT, Tracking_HW_4_PIN)
 #define P5 DL_GPIO_readPins(Tracking_PORT, Tracking_HW_5_PIN)
+#define P6 DL_GPIO_readPins(Tracking_PORT, Tracking_HW_6_PIN)
+#define P7 DL_GPIO_readPins(Tracking_PORT, Tracking_HW_7_PIN)
+#define P8 DL_GPIO_readPins(Tracking_PORT, Tracking_HW_8_PIN)
 
-// Ñ­¼£´«¸ĞÆ÷µÄ¶ÁÊı£¬±íÊ¾Æ«ÀëÖĞĞÄÏßµÄ³Ì¶È
+// å¾ªè¿¹ä¼ æ„Ÿå™¨çš„è¯»æ•°ï¼Œè¡¨ç¤ºåç¦»ä¸­å¿ƒçº¿çš„ç¨‹åº¦
 static volatile int32_t Tracking_value;  
 
 /**
- * @brief ³õÊ¼»¯Ñ­¼£Ä£¿é
+ * @brief åˆå§‹åŒ–å¾ªè¿¹æ¨¡å—
  * 
- * ÆôÓÃ¶¨Ê±Æ÷ÖĞ¶Ï£¬ÓÃÓÚÖÜÆÚĞÔ¶ÁÈ¡Ñ­¼£´«¸ĞÆ÷
+ * å¯ç”¨å®šæ—¶å™¨ä¸­æ–­ï¼Œç”¨äºå‘¨æœŸæ€§è¯»å–å¾ªè¿¹ä¼ æ„Ÿå™¨
  */
 void Tracking_Init()
 {
@@ -22,26 +25,34 @@ void Tracking_Init()
 }
 
 /**
- * @brief ¼ì²âÑ­¼£´«¸ĞÆ÷×´Ì¬²¢¼ÆËãÆ«ÒÆÖµ
+ * @brief æ£€æµ‹å¾ªè¿¹ä¼ æ„Ÿå™¨çŠ¶æ€å¹¶è®¡ç®—åç§»å€¼
  * 
- * ¸ù¾İ¸÷¸ö´«¸ĞÆ÷µÄ×´Ì¬¼ÆËã³µÁ¾Ïà¶ÔÓÚÏßµÄÎ»ÖÃ
+ * æ ¹æ®å„ä¸ªä¼ æ„Ÿå™¨çš„çŠ¶æ€è®¡ç®—è½¦è¾†ç›¸å¯¹äºçº¿çš„ä½ç½®
  */
 void HW_Detect(void)
 {
     Tracking_value = 0;
-    if(P1) // ¼ì²âµ½×îÓÒ¶Ë
-        Tracking_value -= 6;
+    if(P1)
+        Tracking_value += 12;
     if(P2)
-        Tracking_value -= 4;
-    if(P4)
-        Tracking_value += 4;
-    if(P5) // ¼ì²âµ½×î×ó¶Ë
+        Tracking_value += 9;
+    if(P3)
         Tracking_value += 6;
+    if(P4)
+        Tracking_value += 3;
+    if(P5)
+        Tracking_value -= 3;
+    if(P6)
+        Tracking_value -= 6;
+    if(P7)
+        Tracking_value -= 9;
+    if(P8)
+        Tracking_value -= 12;
 }
 
 /**
- * @brief »ñÈ¡Ñ­¼£½Ç¶È£¨Êµ¼ÊÉÏÊÇÆ«ÒÆÖµ£©
- * @return ·µ»Ø¼ÆËãµÃµ½µÄÆ«ÒÆÖµ
+ * @brief è·å–å¾ªè¿¹è§’åº¦ï¼ˆå®é™…ä¸Šæ˜¯åç§»å€¼ï¼‰
+ * @return è¿”å›è®¡ç®—å¾—åˆ°çš„åç§»å€¼
  */
 int Tracking_Angle()
 {
@@ -49,9 +60,9 @@ int Tracking_Angle()
 }
 
 /**
- * @brief ¶¨Ê±Æ÷ÖĞ¶Ï´¦Àíº¯Êı
+ * @brief å®šæ—¶å™¨ä¸­æ–­å¤„ç†å‡½æ•°
  * 
- * ÖÜÆÚĞÔµ÷ÓÃHW_Detectº¯ÊıÀ´¸üĞÂÑ­¼£×´Ì¬
+ * å‘¨æœŸæ€§è°ƒç”¨HW_Detectå‡½æ•°æ¥æ›´æ–°å¾ªè¿¹çŠ¶æ€
  */
 void TIMA0_IRQHandler(void)
 {
@@ -59,8 +70,8 @@ void TIMA0_IRQHandler(void)
 }
 
 /**
- * @brief ¼ì²éÊÇ·ñ¼ì²âµ½ºÚÏß
- * @return Èç¹ûÈÎºÎÒ»¸ö´«¸ĞÆ÷¼ì²âµ½ºÚÏß£¬·µ»Ø1£»·ñÔò·µ»Ø0
+ * @brief æ£€æŸ¥æ˜¯å¦æ£€æµ‹åˆ°é»‘çº¿
+ * @return å¦‚æœä»»ä½•ä¸€ä¸ªä¼ æ„Ÿå™¨æ£€æµ‹åˆ°é»‘çº¿ï¼Œè¿”å›1ï¼›å¦åˆ™è¿”å›0
  */
 int IS_INBLACK()
 {
@@ -69,5 +80,24 @@ int IS_INBLACK()
     int p3 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_3_PIN);
     int p4 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_4_PIN);
     int p5 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_5_PIN);
-    return p1 || p2 || p3 || p4 || p5;
+    int p6 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_6_PIN);
+    int p7 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_7_PIN);
+    int p8 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_8_PIN);
+    return p1 || p2 || p3 || p4 || p5 || p6 || p7 || p8;
+}
+int IS_INBLACK_L()
+{
+    int p5 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_5_PIN);
+    int p6 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_6_PIN);
+    int p7 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_7_PIN);
+    int p8 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_8_PIN);
+    return p5 || p6 || p7 || p8;
+}
+int IS_INBLACK_R()
+{
+    int p1 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_1_PIN);
+    int p2 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_2_PIN);
+    int p3 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_3_PIN);
+    int p4 = DL_GPIO_readPins(Tracking_PORT, Tracking_HW_4_PIN);
+    return p1 || p2 || p3 || p4 ;
 }

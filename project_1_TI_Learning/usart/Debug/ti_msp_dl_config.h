@@ -80,7 +80,7 @@ extern "C" {
 
 /* Defines for UART_3 */
 #define UART_3_INST                                                        UART3
-#define UART_3_INST_FREQUENCY                                            4000000
+#define UART_3_INST_FREQUENCY                                           32000000
 #define UART_3_INST_IRQHandler                                  UART3_IRQHandler
 #define UART_3_INST_INT_IRQN                                      UART3_INT_IRQn
 #define GPIO_UART_3_RX_PORT                                                GPIOB
@@ -92,8 +92,8 @@ extern "C" {
 #define GPIO_UART_3_IOMUX_RX_FUNC                      IOMUX_PINCM16_PF_UART3_RX
 #define GPIO_UART_3_IOMUX_TX_FUNC                      IOMUX_PINCM15_PF_UART3_TX
 #define UART_3_BAUD_RATE                                                  (9600)
-#define UART_3_IBRD_4_MHZ_9600_BAUD                                         (26)
-#define UART_3_FBRD_4_MHZ_9600_BAUD                                          (3)
+#define UART_3_IBRD_32_MHZ_9600_BAUD                                       (208)
+#define UART_3_FBRD_32_MHZ_9600_BAUD                                        (21)
 /* Defines for UART_0 */
 #define UART_0_INST                                                        UART2
 #define UART_0_INST_FREQUENCY                                           32000000

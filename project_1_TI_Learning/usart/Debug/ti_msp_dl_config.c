@@ -137,7 +137,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_SYSCTL_init(void)
 
 
 static const DL_UART_Main_ClockConfig gUART_3ClockConfig = {
-    .clockSel    = DL_UART_MAIN_CLOCK_MFCLK,
+    .clockSel    = DL_UART_MAIN_CLOCK_BUSCLK,
     .divideRatio = DL_UART_MAIN_CLOCK_DIVIDE_RATIO_1
 };
 
@@ -158,10 +158,10 @@ SYSCONFIG_WEAK void SYSCFG_DL_UART_3_init(void)
     /*
      * Configure baud rate by setting oversampling and baud rate divisors.
      *  Target baud rate: 9600
-     *  Actual baud rate: 9598.08
+     *  Actual baud rate: 9600.24
      */
     DL_UART_Main_setOversampling(UART_3_INST, DL_UART_OVERSAMPLING_RATE_16X);
-    DL_UART_Main_setBaudRateDivisor(UART_3_INST, UART_3_IBRD_4_MHZ_9600_BAUD, UART_3_FBRD_4_MHZ_9600_BAUD);
+    DL_UART_Main_setBaudRateDivisor(UART_3_INST, UART_3_IBRD_32_MHZ_9600_BAUD, UART_3_FBRD_32_MHZ_9600_BAUD);
 
 
     /* Configure Interrupts */

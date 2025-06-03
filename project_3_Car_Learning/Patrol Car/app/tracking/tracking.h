@@ -1,8 +1,15 @@
-#ifndef __Tracking_  // Èç¹ûÃ»ÓĞ¶¨Òå__Tracking_ºê
-#define __Tracking_  // ¶¨Òå__Tracking_ºê
+#ifndef __Tracking_  // å¦‚æœæ²¡æœ‰å®šä¹‰__Tracking_å®
+#define __Tracking_  // å®šä¹‰__Tracking_å®
 
-#include "ti_msp_dl_config.h"  // °üº¬ti_msp_dl_config.hÍ·ÎÄ¼ş
-int Tracking_Angle();  // ÉùÃ÷Tracking_Angleº¯Êı
-void Tracking_Init();  // ÉùÃ÷Tracking_Initº¯Êı
-int IS_INBLACK ();  // ÉùÃ÷IS_INBLACKº¯Êı
-#endif  // ½áÊøºê¶¨Òå
+
+
+#include "ti_msp_dl_config.h"  // åŒ…å«ti_msp_dl_config.hå¤´æ–‡ä»¶
+
+
+
+int Tracking_Angle();  // å£°æ˜Tracking_Angleå‡½æ•°
+void Tracking_Init();  // å£°æ˜Tracking_Initå‡½æ•°
+int IS_INBLACK ();  // å£°æ˜IS_INBLACKå‡½æ•°
+int IS_INBLACK_R();
+int IS_INBLACK_L();
+#endif  // ç»“æŸå®å®šä¹‰

@@ -14,8 +14,10 @@ ORDERED_OBJS += \
 "./ti_msp_dl_config.o" \
 "./startup_mspm0g350x_ticlang.o" \
 "./app/buzzer/buzzer.o" \
+"./app/control/control.o" \
 "./app/encoder/encoder.o" \
 "./app/hc_06/hc_06.o" \
+"./app/jy62/jy62.o" \
 "./app/motor/motor.o" \
 "./app/mpu6050/mpu6050.o" \
 "./app/tb6612/tb6612.o" \
@@ -37,8 +39,10 @@ RMDIR := RMDIR /S/Q
 -include sources.mk
 -include subdir_vars.mk
 -include app/buzzer/subdir_vars.mk
+-include app/control/subdir_vars.mk
 -include app/encoder/subdir_vars.mk
 -include app/hc_06/subdir_vars.mk
+-include app/jy62/subdir_vars.mk
 -include app/motor/subdir_vars.mk
 -include app/mpu6050/subdir_vars.mk
 -include app/tb6612/subdir_vars.mk
@@ -49,8 +53,10 @@ RMDIR := RMDIR /S/Q
 -include lib/usart/subdir_vars.mk
 -include subdir_rules.mk
 -include app/buzzer/subdir_rules.mk
+-include app/control/subdir_rules.mk
 -include app/encoder/subdir_rules.mk
 -include app/hc_06/subdir_rules.mk
+-include app/jy62/subdir_rules.mk
 -include app/motor/subdir_rules.mk
 -include app/mpu6050/subdir_rules.mk
 -include app/tb6612/subdir_rules.mk
@@ -176,8 +182,8 @@ Patrol\ Car.out: $(OBJS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "app\buzzer\buzzer.o" "app\encoder\encoder.o" "app\hc_06\hc_06.o" "app\motor\motor.o" "app\mpu6050\mpu6050.o" "app\tb6612\tb6612.o" "app\tracking\tracking.o" "lib\delay\delay.o" "lib\key\key.o" "lib\pid\pid.o" "lib\usart\usart.o" 
-	-$(RM) "main.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "app\buzzer\buzzer.d" "app\encoder\encoder.d" "app\hc_06\hc_06.d" "app\motor\motor.d" "app\mpu6050\mpu6050.d" "app\tb6612\tb6612.d" "app\tracking\tracking.d" "lib\delay\delay.d" "lib\key\key.d" "lib\pid\pid.d" "lib\usart\usart.d" 
+	-$(RM) "main.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "app\buzzer\buzzer.o" "app\control\control.o" "app\encoder\encoder.o" "app\hc_06\hc_06.o" "app\jy62\jy62.o" "app\motor\motor.o" "app\mpu6050\mpu6050.o" "app\tb6612\tb6612.o" "app\tracking\tracking.o" "lib\delay\delay.o" "lib\key\key.o" "lib\pid\pid.o" "lib\usart\usart.o" 
+	-$(RM) "main.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "app\buzzer\buzzer.d" "app\control\control.d" "app\encoder\encoder.d" "app\hc_06\hc_06.d" "app\jy62\jy62.d" "app\motor\motor.d" "app\mpu6050\mpu6050.d" "app\tb6612\tb6612.d" "app\tracking\tracking.d" "lib\delay\delay.d" "lib\key\key.d" "lib\pid\pid.d" "lib\usart\usart.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

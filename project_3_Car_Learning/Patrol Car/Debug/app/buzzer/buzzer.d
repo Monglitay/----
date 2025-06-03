@@ -1,6 +1,7 @@
 # FIXED
 
 app/buzzer/buzzer.o: ../app/buzzer/buzzer.c ../app/buzzer/buzzer.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h \
  ti_msp_dl_config.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/msp/msp.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/DeviceFamily.h \
@@ -74,9 +75,9 @@ app/buzzer/buzzer.o: ../app/buzzer/buzzer.c ../app/buzzer/buzzer.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/dl_vref.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/dl_wwdt.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_interrupt.h \
- C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_systick.h \
- D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h
+ C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_systick.h
 ../app/buzzer/buzzer.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h:
 ti_msp_dl_config.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/msp/msp.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/DeviceFamily.h:
@@ -151,4 +152,3 @@ C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/dl_vref.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/dl_wwdt.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_interrupt.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/driverlib/m0p/dl_systick.h:
-D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/delay/delay.h:

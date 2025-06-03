@@ -1,26 +1,20 @@
 #include "buzzer.h"
 #include "delay.h"
+#include "string.h"
 
-// 记录上一次蜂鸣器开启的时间戳
-int32_t last_on_tick = 0;
-
-// 蜂鸣器状态标志，1表示需要开启，0表示不需要开启
-extern int buzzer_flag;
+static BuzzerControl buzzer = {0};
 
 /**
  * @brief 初始化蜂鸣器
- * 
- * 该函数将蜂鸣器状态标志设置为0，表示初始状态下蜂鸣器不工作
  */
 void Buzzer_Init()
 {
-    buzzer_flag = 0;
+    Buzzer_Off();
+    memset(&buzzer, 0, sizeof(BuzzerControl));
 }
 
 /**
  * @brief 开启蜂鸣器
- * 
- * 通过设置PWM的捕获比较值来开启蜂鸣器
  */
 void Buzzer_On()
 {
@@ -29,8 +23,6 @@ void Buzzer_On()
 
 /**
  * @brief 关闭蜂鸣器
- * 
- * 通过设置PWM的捕获比较值为0来关闭蜂鸣器
  */
 void Buzzer_Off()
 {
@@ -38,26 +30,48 @@ void Buzzer_Off()
 }
 
 /**
+ * @brief 设置蜂鸣器鸣叫模式
+ * @param duration 鸣叫时长(ms)
+ * @param interval 间隔时长(ms)
+ * @param repeat_count 重复次数
+ */
+void Buzzer_SetPattern(uint32_t duration, uint32_t interval, uint8_t repeat_count)
+{
+    buzzer.duration = duration;
+    buzzer.interval = interval;
+    buzzer.repeat_count = repeat_count;
+    buzzer.is_active = 1;
+    buzzer.current_count = 0;
+    buzzer.start_tick = get_ticks();
+}
+/**
  * @brief 蜂鸣器处理函数
- * 
- * 该函数需要周期性调用，用于控制蜂鸣器的开启和关闭
  */
 void Buzzer_Proc()
 {
-    
-    // 如果蜂鸣器标志为1，则开启蜂鸣器
-    if(buzzer_flag == 1)
-    {
-        Buzzer_On();
-        // 记录开启时间
-        last_on_tick = get_ticks();
-        // 重置标志
-        buzzer_flag = 0;
+    uint32_t current_tick = get_ticks();
+    // 如果未激活，直接返回
+    if (!buzzer.is_active) {
+        Buzzer_Off();
+        return;
     }
-    else
-    {
-        // 如果距离上次开启已经超过1000个时间单位，则关闭蜂鸣器
-        if(get_ticks() - last_on_tick > 1000)
-            Buzzer_Off();
+    // 计算经过的时间
+    uint32_t elapsed = current_tick - buzzer.start_tick;
+    // 完成所有重复
+    if (buzzer.current_count >= buzzer.repeat_count) {
+        buzzer.is_active = 0;
+        Buzzer_Off();
+        return;
+    }
+    // 判断当前是鸣叫还是静音状态
+    if (elapsed % (buzzer.duration + buzzer.interval) < buzzer.duration) {
+        Buzzer_On();
+    } else {
+        Buzzer_Off();
+        
+        // 如果一个周期结束，增加重复计数
+        if (elapsed % (buzzer.duration + buzzer.interval) == 0) {
+            buzzer.current_count++;
+        }
     }
 }

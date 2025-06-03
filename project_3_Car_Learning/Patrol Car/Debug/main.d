@@ -1,6 +1,7 @@
 # FIXED
 
 main.o: ../main.c \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/control/control.h \
  ti_msp_dl_config.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/msp/msp.h \
  C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/DeviceFamily.h \
@@ -83,9 +84,11 @@ main.o: ../main.c \
  D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/motor/motor.h \
  D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/pid/pid.h \
  D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/task/task.h \
- D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/mpu6050/mpu6050.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/jy62/jy62.h \
  D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tracking/tracking.h \
- D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/buzzer/buzzer.h
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/buzzer/buzzer.h \
+ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/key/key.h
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/control/control.h:
 ti_msp_dl_config.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/msp/msp.h:
 C:/TI/mspm0_sdk_2_04_00_06/source/ti/devices/DeviceFamily.h:
@@ -168,6 +171,7 @@ D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tb6612/tb6612.h:
 D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/motor/motor.h:
 D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/pid/pid.h:
 D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/task/task.h:
-D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/mpu6050/mpu6050.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/jy62/jy62.h:
 D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/tracking/tracking.h:
 D:/NUEDC/project_3_Car_Learning/Patrol\ Car/app/buzzer/buzzer.h:
+D:/NUEDC/project_3_Car_Learning/Patrol\ Car/lib/key/key.h:

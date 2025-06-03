@@ -4,7 +4,8 @@
 // 编码器相关全局变量
 volatile uint32_t Encoder_L_Port, Encoder_R_Port;      // 左右编码器端口状态
 volatile int32_t Encoder_L_CNT, Encoder_R_CNT;         // 左右编码器计数值
-volatile int32_t Encoder_L_VEL, Encoder_R_VEL;         // 左右马达速度 
+volatile int32_t Encoder_L_VEL, Encoder_R_VEL;         // 左右马达速度
+volatile int32_t Encoder_L_INT, Encoder_R_INT;          // 左右编码器积分    
 
 /**
  * @brief 初始化编码器
@@ -26,6 +27,8 @@ void Encoder_Init(void)
     
     /* 启动编码器读取定时器 */
     DL_Timer_startCounter(TIMER_Encoder_Read_INST);
+    Encoder_L_INT = 0;
+    Encoder_R_INT = 0; 
 }
 
 /**
@@ -63,14 +66,14 @@ void GROUP1_IRQHandler(void)
     if((Encoder_L_Port & GPIO_Encoder_L_L_A_PIN) == GPIO_Encoder_L_L_A_PIN)
     {
         // 根据B相状态判断旋转方向
-        if(!DL_GPIO_readPins(GPIO_Encoder_L_PORT,GPIO_Encoder_L_L_B_PIN))   Encoder_L_CNT--;
-        else                                                                Encoder_L_CNT++;
+        if(!DL_GPIO_readPins(GPIO_Encoder_L_PORT,GPIO_Encoder_L_L_B_PIN))   {Encoder_L_CNT--;Encoder_L_INT--;}
+        else                                                                {Encoder_L_CNT++;Encoder_L_INT++;}
     }
     else if((Encoder_L_Port & GPIO_Encoder_L_L_B_PIN) == GPIO_Encoder_L_L_B_PIN)
     {
         // 根据A相状态判断旋转方向
-        if(!DL_GPIO_readPins(GPIO_Encoder_L_PORT,GPIO_Encoder_L_L_A_PIN))   Encoder_L_CNT++;
-        else                                                                Encoder_L_CNT--;
+        if(!DL_GPIO_readPins(GPIO_Encoder_L_PORT,GPIO_Encoder_L_L_A_PIN))   {Encoder_L_CNT++;Encoder_L_INT++;}
+        else                                                                {Encoder_L_CNT--;Encoder_L_INT--;}
     }
     // 清除左编码器中断标志
     DL_GPIO_clearInterruptStatus(GPIO_Encoder_L_PORT, GPIO_Encoder_L_L_A_PIN|GPIO_Encoder_L_L_B_PIN);
@@ -79,14 +82,14 @@ void GROUP1_IRQHandler(void)
     if((Encoder_R_Port & GPIO_Encoder_R_R_A_PIN) == GPIO_Encoder_R_R_A_PIN)
     {
         // 根据B相状态判断旋转方向
-        if(!DL_GPIO_readPins(GPIO_Encoder_R_PORT,GPIO_Encoder_R_R_B_PIN))   Encoder_R_CNT--;
-        else                                                                Encoder_R_CNT++;
+        if(!DL_GPIO_readPins(GPIO_Encoder_R_PORT,GPIO_Encoder_R_R_B_PIN))    {Encoder_R_CNT--;Encoder_R_INT--;}
+        else                                                                {Encoder_R_CNT++;Encoder_R_INT++;}
     }
     else if((Encoder_R_Port & GPIO_Encoder_R_R_B_PIN) == GPIO_Encoder_R_R_B_PIN)
     {
         // 根据A相状态判断旋转方向
-        if(!DL_GPIO_readPins(GPIO_Encoder_R_PORT,GPIO_Encoder_R_R_A_PIN))   Encoder_R_CNT++;
-        else                                                                Encoder_R_CNT--;
+        if(!DL_GPIO_readPins(GPIO_Encoder_R_PORT,GPIO_Encoder_R_R_A_PIN))   {Encoder_R_CNT++;Encoder_R_INT++;}
+        else                                                                {Encoder_R_CNT--;Encoder_R_INT--;}
     }
     // 清除右编码器中断标志
     DL_GPIO_clearInterruptStatus(GPIO_Encoder_R_PORT, GPIO_Encoder_R_R_A_PIN|GPIO_Encoder_R_R_B_PIN);
@@ -98,7 +101,7 @@ void GROUP1_IRQHandler(void)
  */
 int32_t Encoder_Get_L_Speed()
 {
-    return Encoder_L_VEL;
+    return -Encoder_L_VEL;
 }
 
 /**
@@ -108,4 +111,13 @@ int32_t Encoder_Get_L_Speed()
 int32_t Encoder_Get_R_Speed()
 {
     return -Encoder_R_VEL;
+}
+
+int32_t Encoder_Get_L_Integral()
+{
+    return Encoder_L_INT;
+}
+int32_t Encoder_Get_R_Integral()
+{
+    return -Encoder_R_INT;
 }

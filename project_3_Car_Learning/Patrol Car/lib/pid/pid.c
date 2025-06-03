@@ -12,7 +12,7 @@
  * @param ki 积分系数
  * @param kd 微分系数
  */
-void PID_Init(PID_Tpyedef *PIDx, float kp, float ki, float kd)
+void PID_Init(PID_Typedef *PIDx, float kp, float ki, float kd)
 {
     PIDx->kp = kp;
     PIDx->ki = ki;
@@ -41,7 +41,7 @@ void PID_Limmit(float *co, float Upper, float Lower)
  * @param PIDx PID控制器结构体指针
  * @param sp 新的设定值
  */
-void PID_ChangeSP(PID_Tpyedef *PIDx, float sp)
+void PID_ChangeSP(PID_Typedef *PIDx, float sp)
 {
     PIDx->sp = sp;
 }
@@ -52,7 +52,7 @@ void PID_ChangeSP(PID_Tpyedef *PIDx, float sp)
  * @param fb 反馈值
  * @return 返回计算后的控制输出
  */
-float PID_Compute(PID_Tpyedef *PIDx, float fb)
+float PID_Compute(PID_Typedef *PIDx, float fb)
 {
     PIDx->err = PIDx->sp - fb;  // 计算当前误差
     
@@ -64,10 +64,9 @@ float PID_Compute(PID_Tpyedef *PIDx, float fb)
     PIDx->last2_err = PIDx->last_err;  // 更新上上次误差
     PIDx->last_err = PIDx->err;        // 更新上次误差
     
-    // 误差死区处理
-    if (fabs(PIDx->err) < ERROR_DEADZONE) 
+    if(PIDx->co<=0.7&&PIDx->co>=0.7)
     {
-        PIDx->err = 0;
+        PIDx->co = 0;
     }
 
     return PIDx->co;
@@ -77,9 +76,36 @@ float PID_Compute(PID_Tpyedef *PIDx, float fb)
  * @brief 重置PID控制器
  * @param PIDx PID控制器结构体指针
  */
-void PID_Reset(PID_Tpyedef *PIDx)
+void PID_Reset(PID_Typedef *PIDx)
 {
     PIDx->err = 0;
     PIDx->last2_err = 0;
     PIDx->last_err = 0;
+}
+
+float PID_Compute_dir(PID_Typedef *PIDx, float fb)
+{
+    float raw_error = PIDx->sp - fb; 
+    // 将误差规范到[-180°, 180°)范围内
+    raw_error = fmodf(raw_error + 180.0f, 360.0f);
+    if (raw_error < 0) raw_error += 360.0f;  // 处理负数结果
+    raw_error -= 180.0f; 
+    
+    PIDx->err = raw_error;    // 计算当前误差
+    
+
+    // 增量式PID算法
+    PIDx->co += PIDx->kp * (PIDx->err - PIDx->last_err) +
+                PIDx->ki * PIDx->err +
+                PIDx->kd * (PIDx->err - 2 * PIDx->last_err + PIDx->last2_err);
+    
+    PIDx->last2_err = PIDx->last_err;  // 更新上上次误差
+    PIDx->last_err = PIDx->err;        // 更新上次误差
+    
+    if(PIDx->co<=0.7&&PIDx->co>=0.7)
+    {
+        PIDx->co = 0;
+    }
+
+    return PIDx->co;
 }
